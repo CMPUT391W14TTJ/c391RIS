@@ -341,42 +341,42 @@ INSERT INTO radiology_record
 (record_id, patient_id, doctor_id, radiologist_id, test_type, prescribing_date
 , test_date, diagnosis, description)
 VALUES
-(1,12, 8, 4, 'Computed tomography scan', sysdate, sysdate, 'Negative',
+(1,12, 8, 4, 'Computed tomography scan', sysdate, sysdate, 'Bi Polar',
 'Everything looks good');
 /*----------------------------------------------------------------------------*/
 INSERT INTO radiology_record
 (record_id, patient_id, doctor_id, radiologist_id, test_type, prescribing_date
 , test_date, diagnosis, description)
 VALUES
-(2,13, 3, 5, 'MRI', sysdate, sysdate, 'Negative',
+(2,13, 3, 5, 'MRI', sysdate, sysdate, 'Brain tumor',
 'Everything looks good');
 /*----------------------------------------------------------------------------*/
 INSERT INTO radiology_record
 (record_id, patient_id, doctor_id, radiologist_id, test_type, prescribing_date
 , test_date, diagnosis, description)
 VALUES
-(3,14, 9, 6, 'Radiographic studies', sysdate, sysdate, 'Positive',
+(3,14, 9, 6, 'Radiographic studies', sysdate, sysdate, 'Lung cancer',
 'Scans show something, must do more tests.');
 /*----------------------------------------------------------------------------*/
 INSERT INTO radiology_record
 (record_id, patient_id, doctor_id, radiologist_id, test_type, prescribing_date
 , test_date, diagnosis, description)
 VALUES
-(4,15, 10, 7, 'Mammography', sysdate, sysdate, 'Positive',
+(4,15, 10, 7, 'Mammography', sysdate, sysdate, 'Breast cancer',
 'Evidence of cancer suggest immediate treatment');
 /*----------------------------------------------------------------------------*/
 INSERT INTO radiology_record
 (record_id, patient_id, doctor_id, radiologist_id, test_type, prescribing_date
 , test_date, diagnosis, description)
 VALUES
-(5,16, 8, 7, 'Nuclear scans', sysdate, sysdate, 'Negative',
+(5,16, 8, 7, 'Nuclear scans', sysdate, sysdate, 'Some cancer',
 'No sign of cancer');
 /*----------------------------------------------------------------------------*/
 INSERT INTO radiology_record
 (record_id, patient_id, doctor_id, radiologist_id, test_type, prescribing_date
 , test_date, diagnosis, description)
 VALUES
-(6,17, 9, 5, 'Ultrasound', sysdate, sysdate, 'POsitive',
+(6,17, 9, 5, 'Ultrasound', sysdate, sysdate, 'Pregnant',
 'Wont make it to next week');
 /*----------------------------------------------------------------------------*/
 
