@@ -311,7 +311,7 @@ VALUES
 INSERT INTO family_doctor
 (doctor_id, patient_id)
 VALUES
-(9,22);7
+(9,22);
 /*----------------------------------------------------------------------------*/
 INSERT INTO family_doctor
 (doctor_id, patient_id)
