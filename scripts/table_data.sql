@@ -348,7 +348,7 @@ INSERT INTO radiology_record
 (record_id, patient_id, doctor_id, radiologist_id, test_type, prescribing_date
 , test_date, diagnosis, description)
 VALUES
-(2,13, 3, 5, 'Magnetic resonance imaging scan', sysdate, sysdate, 'Negative',
+(2,13, 3, 5, 'MRI', sysdate, sysdate, 'Negative',
 'Everything looks good');
 /*----------------------------------------------------------------------------*/
 INSERT INTO radiology_record
