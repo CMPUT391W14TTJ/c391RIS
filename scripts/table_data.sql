@@ -68,8 +68,9 @@ VALUES
 INSERT INTO persons
 (person_id, first_name, last_name, address, email, phone)
 VALUES
-(12, 'Vincent', 'Foster', '9777 Rustic Anchor Nook, Coeur d\' Alene, Manitoba, R3N-4I8, CA', 
+(12, 'Vincent', 'Foster', '9777 Rustic Anchor Nook, Coeur Alene, Manitoba, R3N-4I8, CA', 
 'Oning1942@teleworm.us', '(204) 391-9837');
+
 /*----------------------------------------------------------------------------*/
 INSERT INTO persons
 (person_id, first_name, last_name, address, email, phone)
@@ -139,4 +140,245 @@ VALUES
 /*----------------------------------------------------------------------------*/
 
 /*Load up the users table*/
+INSERT INTO users
+(user_name, password, class, person_id, date_registered)
+VALUES
+('jhodgson', '1234', 'a', 1, sysdate);
+/*----------------------------------------------------------------------------*/
+INSERT INTO users
+(user_name, password, class, person_id, date_registered)
+VALUES
+('twendlandt', '4321', 'p', 2, sysdate);
+/*----------------------------------------------------------------------------*/
+INSERT INTO users
+(user_name, password, class, person_id, date_registered)
+VALUES
+('tmurphy', '1234', 'd', 3, sysdate);
+/*----------------------------------------------------------------------------*/
+INSERT INTO users
+(user_name, password, class, person_id, date_registered)
+VALUES
+('EdibleFruit', '1234', 'r', 4, sysdate);
+/*----------------------------------------------------------------------------*/
+INSERT INTO users
+(user_name, password, class, person_id, date_registered)
+VALUES
+('FalseFruit', '1234', 'r', 5, sysdate);
+/*----------------------------------------------------------------------------*/
+INSERT INTO users
+(user_name, password, class, person_id, date_registered)
+VALUES
+('storkelfin', '1234', 'r', 6, sysdate);
+/*----------------------------------------------------------------------------*/
+INSERT INTO users
+(user_name, password, class, person_id, date_registered)
+VALUES
+('batchspew', '1234', 'r', 7, sysdate);
+/*----------------------------------------------------------------------------*/
+INSERT INTO users
+(user_name, password, class, person_id, date_registered)
+VALUES
+('capfrog', '1234', 'd', 8, sysdate);
+/*----------------------------------------------------------------------------*/
+INSERT INTO users
+(user_name, password, class, person_id, date_registered)
+VALUES
+('buyersponge', '1234', 'd', 9, sysdate);
+/*----------------------------------------------------------------------------*/
+INSERT INTO users
+(user_name, password, class, person_id, date_registered)
+VALUES
+('writerrubbish', '1234', 'd', 10, sysdate);
+/*----------------------------------------------------------------------------*/
+INSERT INTO users
+(user_name, password, class, person_id, date_registered)
+VALUES
+('neatsilver', '1234', 'a', 11, sysdate);
+/*----------------------------------------------------------------------------*/
+INSERT INTO users
+(user_name, password, class, person_id, date_registered)
+VALUES
+('moleshort', '1234', 'p', 12, sysdate);
+/*----------------------------------------------------------------------------*/
+INSERT INTO users
+(user_name, password, class, person_id, date_registered)
+VALUES
+('pocksilent', '1234', 'p', 13, sysdate);
+/*----------------------------------------------------------------------------*/
+INSERT INTO users
+(user_name, password, class, person_id, date_registered)
+VALUES
+('dartcried', '1234', 'p', 14, sysdate);
+/*----------------------------------------------------------------------------*/
+INSERT INTO users
+(user_name, password, class, person_id, date_registered)
+VALUES
+('snoopygland', '1234', 'p', 15, sysdate);
+/*----------------------------------------------------------------------------*/
+INSERT INTO users
+(user_name, password, class, person_id, date_registered)
+VALUES
+('brutalbump', '1234', 'p', 16, sysdate);
+/*----------------------------------------------------------------------------*/
+INSERT INTO users
+(user_name, password, class, person_id, date_registered)
+VALUES
+('binnuts', '1234', 'p', 17, sysdate);
+/*----------------------------------------------------------------------------*/
+INSERT INTO users
+(user_name, password, class, person_id, date_registered)
+VALUES
+('alcoholicchirm', '1234', 'p', 18, sysdate);
+/*----------------------------------------------------------------------------*/
+INSERT INTO users
+(user_name, password, class, person_id, date_registered)
+VALUES
+('twinklingbeef', '1234', 'p', 19, sysdate);
+/*----------------------------------------------------------------------------*/
+INSERT INTO users
+(user_name, password, class, person_id, date_registered)
+VALUES
+('barlegs', '1234', 'p', 20, sysdate);
+/*----------------------------------------------------------------------------*/
+INSERT INTO users
+(user_name, password, class, person_id, date_registered)
+VALUES
+('priceyfard', '1234', 'p', 21, sysdate);
+/*----------------------------------------------------------------------------*/
+INSERT INTO users
+(user_name, password, class, person_id, date_registered)
+VALUES
+('familycheese', '1234', 'p', 22, sysdate);
+/*----------------------------------------------------------------------------*/
+INSERT INTO users
+(user_name, password, class, person_id, date_registered)
+VALUES
+('chunksglue', '1234', 'p', 23, sysdate);
+/*----------------------------------------------------------------------------*/
 
+/*Load up the family_doctor table*/
+
+INSERT INTO family_doctor
+(doctor_id, patiend_id)
+VALUES
+(8,12);
+/*----------------------------------------------------------------------------*/
+INSERT INTO family_doctor
+(doctor_id, patiend_id)
+VALUES
+(3,13);
+/*----------------------------------------------------------------------------*/
+INSERT INTO family_doctor
+(doctor_id, patiend_id)
+VALUES
+(9,14);
+/*----------------------------------------------------------------------------*/
+INSERT INTO family_doctor
+(doctor_id, patiend_id)
+VALUES
+(10,15);
+/*----------------------------------------------------------------------------*/
+INSERT INTO family_doctor
+(doctor_id, patiend_id)
+VALUES
+(9,16);
+/*----------------------------------------------------------------------------*/
+INSERT INTO family_doctor
+(doctor_id, patiend_id)
+VALUES
+(9,17);
+/*----------------------------------------------------------------------------*/
+INSERT INTO family_doctor
+(doctor_id, patiend_id)
+VALUES
+(10,18);
+/*----------------------------------------------------------------------------*/
+INSERT INTO family_doctor
+(doctor_id, patiend_id)
+VALUES
+(3,19);
+/*----------------------------------------------------------------------------*/
+INSERT INTO family_doctor
+(doctor_id, patiend_id)
+VALUES
+(3,20);
+/*----------------------------------------------------------------------------*/
+INSERT INTO family_doctor
+(doctor_id, patiend_id)
+VALUES
+(3,21);
+/*----------------------------------------------------------------------------*/
+INSERT INTO family_doctor
+(doctor_id, patiend_id)
+VALUES
+(9,22);7
+/*----------------------------------------------------------------------------*/
+INSERT INTO family_doctor
+(doctor_id, patiend_id)
+VALUES
+(8,23);
+/*----------------------------------------------------------------------------*/
+INSERT INTO family_doctor
+(doctor_id, patiend_id)
+VALUES
+(8,2);
+/*----------------------------------------------------------------------------*/
+
+/*Load up the radiology_record table*/
+
+/*Types of radiology tests (cancer related ones I think):
+---------------------------
+Computed tomography scan
+Magnetic resonance imaging scan
+Radiographic studies
+Mammography
+Nuclear scans
+Ultrasound
+*/
+
+/*----------------------------------------------------------------------------*/
+INSERT INTO radiology_record
+(record_id, patient_id, doctor_id, radiologist_id, test_type, prescribing_date
+, test_date, diagnosis, description)
+VALUES
+(1,12, 8, 4, 'Computed tomography scan', sysdate, sysdate, 'Negative',
+'Everything looks good');
+/*----------------------------------------------------------------------------*/
+INSERT INTO radiology_record
+(record_id, patient_id, doctor_id, radiologist_id, test_type, prescribing_date
+, test_date, diagnosis, description)
+VALUES
+(2,13, 3, 5, 'Magnetic resonance imaging scan', sysdate, sysdate, 'Negative',
+'Everything looks good');
+/*----------------------------------------------------------------------------*/
+INSERT INTO radiology_record
+(record_id, patient_id, doctor_id, radiologist_id, test_type, prescribing_date
+, test_date, diagnosis, description)
+VALUES
+(3,14, 9, 6, 'Radiographic studies', sysdate, sysdate, 'Positive',
+'Scans show something, must do more tests.');
+/*----------------------------------------------------------------------------*/
+INSERT INTO radiology_record
+(record_id, patient_id, doctor_id, radiologist_id, test_type, prescribing_date
+, test_date, diagnosis, description)
+VALUES
+(4,15, 10, 7, 'Mammography', sysdate, sysdate, 'Positive',
+'Evidence of cancer suggest immediate treatment');
+/*----------------------------------------------------------------------------*/
+INSERT INTO radiology_record
+(record_id, patient_id, doctor_id, radiologist_id, test_type, prescribing_date
+, test_date, diagnosis, description)
+VALUES
+(5,16, 8, 7, 'Nuclear scans', sysdate, sysdate, 'Negative',
+'No sign of cancer');
+/*----------------------------------------------------------------------------*/
+INSERT INTO radiology_record
+(record_id, patient_id, doctor_id, radiologist_id, test_type, prescribing_date
+, test_date, diagnosis, description)
+VALUES
+(6,17, 9, 5, 'Ultrasound', sysdate, sysdate, 'POsitive',
+'Wont make it to next week');
+/*----------------------------------------------------------------------------*/
+
+/*Load up the images table*/
+/*Have not figured out how to upload local images as of yet*/
