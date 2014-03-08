@@ -1,6 +1,6 @@
 <html>
 <head>
-	<?php include('./PHPconnectionDB.php'); ?> 
+	<?php include('./inc/PHPconnectionDB.php'); ?> 
 	<title>Login Module - CMPUT 391 TTJ</title>
 	<!-- This is a work in progress I still need to 
 		Implement many features. 
@@ -13,6 +13,7 @@
 	<h1>Welcome to The Radiology Information System</h1>
 	<p>
 	<?php 
+		//ob_start();
 		// first check if the post was set
 		if (isset($_POST['validate'])) {
 			$_SESSION['username'] = $_POST['username'];
@@ -23,11 +24,10 @@
 			$conn = connect();
 			if (!$conn) {
    				$e = oci_error();
-   				trigger_error(htmlentities($e['message'], ENT_QUOTES), 
-				    E_USER_ERROR);
+   				trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
     			} 
 				
-			$sql = "SELECT * FROM users WHERE user_name = '" . 
+			$sql = "SELECT Class FROM users WHERE user_name = '" . 
 			    $_SESSION['username'] . "' AND password = '" . 
 			    $_SESSION['password'] . "'";
 
@@ -38,12 +38,21 @@
 			/*
 			 * Check if the user has entered the correct login info
 			 * if not deny them. 
-			 * NOTE: I'm not sure if this is exactly how you check but
-			 * I will confirm as soon as I am able to test :)
 			 */
 			if (($row = oci_fetch_array($stid, OCI_ASSOC))) {
+				foreach($row as $r) {
+					$_SESSION["user_class"] = $r["CLASS"];
+				}
+				echo "USER_CLASS: " . $_SESSION["user_class"] . "<br/>";
 				echo "Thank you for logging in, " .
 				    $_SESSION['username'] . "<br/>";
+				
+				/*
+				while (ob_get_status()) {
+					ob_end_clean();
+				}
+				header( "Location: http://consort.cs.ualberta.ca/~twendlan/c391RIS/proj/";
+				*/
 			} else {
 				echo "Invalid login information<br/>";
 			}
