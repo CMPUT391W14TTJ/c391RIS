@@ -16,9 +16,9 @@
 		// first check if the post was set
 		if (isset($_POST['validate'])) {
 			$_SESSION['username'] = $_POST['username'];
-			echo 'USERNAME: ' . $_SESSION['username'] . '\n';
-			//$_SESSSION['password'] = $_POST['password'];
-
+			echo 'USERNAME: ' . $_SESSION['username'] . "<br/>";
+			$_SESSION['password'] = $_POST["pw"];
+			echo 'PASSWORD: ' . $_SESSION["password"] . "<br/>";
 			//HERE I SHOULD connect to the oracle db to check username/password
 			$conn = connect();
 			if (!$conn) {
@@ -26,11 +26,11 @@
    				trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
     			} 
 				
-			/*$sql = "SELECT * FROM users WHERE user_name = '" . 
-			    $_SESSION['username'] . "';";*/
+			$sql = "SELECT * FROM users WHERE user_name = '" . 
+			    $_SESSION['username'] . "' AND password = '" . 
+			    $_SESSION['password'] . "'";
 
-			$sql = "SELECT * FROM users;";
-			echo 'SQL Statement: ' . $sql;	
+			echo 'SQL Statement: ' . $sql . '<br/>';	
 
 			$stid = oci_parse($conn, $sql);
 			$res = oci_execute($stid);
@@ -40,18 +40,19 @@
 			 * NOTE: I'm not sure if this is exactly how you check but
 			 * I will confirm as soon as I am able to test :)
 			 */
-			$count = 0;
+			/*$count = 0;
 			while (($row = oci_fetch_array($stid, OCI_ASSOC))) {
 				$count = $count + 1;
 				echo $count;
 				echo '<br/>';
-			}
-		/*	if (!$res) {
-				echo "INVALID login information";  
+			}*/
+			if (!$res) {
+				$err = oci_error($stid);
+				echo htmlentities($err['message']);
 			} else {
-				echo 'Thank you for logging in, ' . $_SESSION['username'] . ".";
+				echo 'Thank you for logging in, ' . 
+				    $_SESSION['username'] . ".<br/>";
 			}
-		*/
 		}
 	
 	?>
