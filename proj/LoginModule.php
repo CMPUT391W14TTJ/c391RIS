@@ -23,7 +23,8 @@
 			$conn = connect();
 			if (!$conn) {
    				$e = oci_error();
-   				trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
+   				trigger_error(htmlentities($e['message'], ENT_QUOTES), 
+				    E_USER_ERROR);
     			} 
 				
 			$sql = "SELECT * FROM users WHERE user_name = '" . 
@@ -40,18 +41,11 @@
 			 * NOTE: I'm not sure if this is exactly how you check but
 			 * I will confirm as soon as I am able to test :)
 			 */
-			/*$count = 0;
-			while (($row = oci_fetch_array($stid, OCI_ASSOC))) {
-				$count = $count + 1;
-				echo $count;
-				echo '<br/>';
-			}*/
-			if (!$res) {
-				$err = oci_error($stid);
-				echo htmlentities($err['message']);
+			if (($row = oci_fetch_array($stid, OCI_ASSOC))) {
+				echo "Thank you for logging in, " .
+				    $_SESSION['username'] . "<br/>";
 			} else {
-				echo 'Thank you for logging in, ' . 
-				    $_SESSION['username'] . ".<br/>";
+				echo "Invalid login information<br/>";
 			}
 		}
 	
