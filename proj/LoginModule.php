@@ -47,14 +47,12 @@
 				echo "Thank you for logging in, " .
 				    $_SESSION['username'] . "<br/>";
 				
-				/*
-				while (ob_get_status()) {
-					ob_end_clean();
-				}
-				header( "Location: http://consort.cs.ualberta.ca/~twendlan/c391RIS/proj/";
-				*/
 			} else {
 				echo "Invalid login information<br/>";
+				echo "Redirecting now...";
+				flush();
+				//sleep(5);
+				header( "Location: http://consort.cs.ualberta.ca/~twendlan/c391RIS/proj/index.html" );
 			}
 		}
 	
