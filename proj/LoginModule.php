@@ -13,7 +13,6 @@
 	<h1>Welcome to The Radiology Information System</h1>
 	<p>
 	<?php 
-		//ob_start();
 		// first check if the post was set
 		if (isset($_POST['validate'])) {
 			$_SESSION['username'] = $_POST['username'];
@@ -21,6 +20,7 @@
 			$_SESSION['password'] = $_POST["pw"];
 			echo 'PASSWORD: ' . $_SESSION["password"] . "<br/>";
 			//HERE I SHOULD connect to the oracle db to check username/password
+			/*
 			$conn = connect();
 			if (!$conn) {
    				$e = oci_error();
@@ -35,10 +35,12 @@
 
 			$stid = oci_parse($conn, $sql);
 			$res = oci_execute($stid);
+			*/
 			/*
 			 * Check if the user has entered the correct login info
 			 * if not deny them. 
 			 */
+			/*
 			if (($row = oci_fetch_array($stid, OCI_ASSOC))) {
 				foreach($row as $r) {
 					$_SESSION["user_class"] = $r["CLASS"];
@@ -46,13 +48,6 @@
 				echo "USER_CLASS: " . $_SESSION["user_class"] . "<br/>";
 				echo "Thank you for logging in, " .
 				    $_SESSION['username'] . "<br/>";
-				
-				/*
-				while (ob_get_status()) {
-					ob_end_clean();
-				}
-				header( "Location: http://consort.cs.ualberta.ca/~twendlan/c391RIS/proj/";
-				*/
 			} else {
 				echo "Invalid login information<br/>";
 			}
