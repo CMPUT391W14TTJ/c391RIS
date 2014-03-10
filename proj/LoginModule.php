@@ -20,7 +20,6 @@
 			$_SESSION['password'] = $_POST["pw"];
 			echo 'PASSWORD: ' . $_SESSION["password"] . "<br/>";
 			//HERE I SHOULD connect to the oracle db to check username/password
-			/*
 			$conn = connect();
 			if (!$conn) {
    				$e = oci_error();
@@ -35,12 +34,10 @@
 
 			$stid = oci_parse($conn, $sql);
 			$res = oci_execute($stid);
-			*/
 			/*
 			 * Check if the user has entered the correct login info
 			 * if not deny them. 
 			 */
-			/*
 			if (($row = oci_fetch_array($stid, OCI_ASSOC))) {
 				foreach($row as $r) {
 					$_SESSION["user_class"] = $r["CLASS"];
@@ -50,6 +47,8 @@
 				    $_SESSION['username'] . "<br/>";
 			} else {
 				echo "Invalid login information<br/>";
+				echo "Redirecting now...";
+				header( "Location: http://consort.cs.ualberta.ca/~twendlan/c391RIS/proj/index.html" );
 			}
 		}
 	
