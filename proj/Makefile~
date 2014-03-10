@@ -1,0 +1,2 @@
+default:
+	chmod 644 *
