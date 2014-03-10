@@ -1,7 +1,7 @@
 <html>
 <head>
 	<?php include('./inc/PHPconnectionDB.php'); ?> 
-	<title>Login Module - CMPUT 391 TTJ</title>
+	<title>Login Module - Radiology Information System</title>
 	<!-- This is a work in progress I still need to 
 		Implement many features. 
 		- connect to the DB (view slides)
@@ -45,10 +45,9 @@
 				echo "USER_CLASS: " . $_SESSION["user_class"] . "<br/>";
 				echo "Thank you for logging in, " .
 				    $_SESSION['username'] . "<br/>";
+				header( "Location: http://consort.cs.ualberta.ca/~twendlan/c391RIS/proj/home.php" );
 			} else {
-				echo "Invalid login information<br/>";
-				echo "Redirecting now...";
-				header( "Location: http://consort.cs.ualberta.ca/~twendlan/c391RIS/proj/index.html" );
+				header( "Location: http://consort.cs.ualberta.ca/~twendlan/c391RIS/proj/bad_login.html" );
 			}
 		}
 	
