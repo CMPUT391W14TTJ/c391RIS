@@ -17,8 +17,13 @@
 				$_SESSION['pass_err_msg'] = "Passwords do not match!";
 				header( 'Location: ./account_settings.php' );
 				exit(1);
+			} else if (strlen($newPass1) > 24) {
+				$_SESSION['pass_change_err'] = True;
+				$_SESSION['pass_err_msg'] = "Password must be under 24 characters!";
+				header( 'Location: ./account_settings.php' );
+				exit(1);
 			}
-			
+	
 			$conn = connect();
 			if (!$conn) {
    				$e = oci_error();
