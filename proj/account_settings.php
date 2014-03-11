@@ -50,7 +50,7 @@
 		</div>
 		<div class="form">
 			<h3>Update Personal info:</h3>
-			<form name="personal_info_update" method="post" action="">
+			<form name="personalInfoUpdate" method="post" action="personalInfoUpdate.php">
 				Username: <input type="text" name="username"/><br/>
 				First Name: <input type="text" name="first_name"/><br/>
 				Last Name: <input type="text" name="last_name"/><br/>
