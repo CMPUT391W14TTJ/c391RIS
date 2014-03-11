@@ -12,6 +12,10 @@
 			$newPass1 = $_POST['newPass1'];
 			$newPass2 = $_POST['newPass2'];
 
+			/*
+	 		 * check if the new passwords match
+			 * Also checks if the password length is greater than 24
+			 */
 			if ($newPass1 != $newPass2) {
 				$_SESSION['pass_change_err'] = True;
 				$_SESSION['pass_err_msg'] = "Passwords do not match!";
@@ -24,6 +28,9 @@
 				exit(1);
 			}
 	
+			/*
+			 * connect to the db
+ 			 */
 			$conn = connect();
 			if (!$conn) {
    				$e = oci_error();
@@ -37,8 +44,7 @@
 			$res = oci_execute($stid);
 
 			/*
-			 * Check if the user has entered the correct login info
-			 * if not deny them. 
+			 * check if the old password is the current password
 			 */
 			if (!($row = oci_fetch_array($stid, OCI_ASSOC))) {
 				$_SESSION['pass_change_err'] = True;
@@ -46,11 +52,15 @@
 				header( 'Location: ./account_settings.php' );
 				exit(1);
 			} 
+
 			$sql = "UPDATE users SET password='" . $newPass1 . "' " . 
 			    "WHERE person_id = " . $_SESSION['user_id'];
 			$stid = oci_parse($conn, $sql);
 			$res = oci_execute($stid);
 			
+			/*
+			 * update the user with a new password
+			 */
 			if (!$res) {
 				$_SESSION['pass_change_err'] = True;
 				$_SESSION['pass_err_msg'] = "Failed to update password.";

@@ -5,7 +5,28 @@
 </head>
 <body>
 <div id="container">
-	<?php include('./inc/navigation.php'); ?>
+	<?php 
+		include('./inc/navigation.php'); 
+		include('./inc/getInfo.php'); 
+		getUserInfo();
+		getPersonalInfo();
+	?>
+	<article class="user_info">
+		<h1>User Info</h1>
+		<p>
+		<?php
+			echo "USERNAME: " . $_SESSION['username'] . '<br/>';
+			echo "PASSWORD: " . $_SESSION['password'] . '<br/>';
+			echo "USER_ID: " . $_SESSION['user_id'] . '<br/>';
+			echo "CLASS: " . $_SESSION['user_class'] . '<br/>';
+			echo "FIRST_NAME: " . $_SESSION['first_name'] . '<br/>';
+			echo "LAST_NAME: " . $_SESSION['last_name'] . '<br/>';
+			echo "ADDRESS: " . $_SESSION['address'] . '<br/>';
+			echo "EMAIL: " . $_SESSION['email'] . '<br/>';
+			echo "PHONE: " . $_SESSION['phone'] . '<br/>';
+		?>
+		</p>
+	</article>
 	<article class="acc_settings">
 		<h2>Account Settings</h2>
 		<div class="form">
@@ -25,6 +46,20 @@
 					$_SESSION['pass_change_err'] = False;
 				}
 			?>
+			</p>
+		</div>
+		<div class="form">
+			<h3>Update Personal info:</h3>
+			<form name="personal_info_update" method="post" action="">
+				Username: <input type="text" name="username"/><br/>
+				First Name: <input type="text" name="first_name"/><br/>
+				Last Name: <input type="text" name="last_name"/><br/>
+				Address: <input type="text" name="address"/><br/>
+				Email: <input type="text" name="email"/><br/>
+				Phone: <input type="text" name="phone"/><br/>
+				<input type="submit" name="PersonalInfoUpdate" value="Update Personal Info"/>
+			</form>
+			<p style="color:red;"></p>
 		</div>
 	</article>		
 </div>
