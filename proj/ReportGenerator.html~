@@ -1,0 +1,4 @@
+<html>
+<?php 	include('./inc/PHPconnectionDB.php');
+	?>
+</html>
