@@ -59,7 +59,16 @@
 				Phone: <input type="text" name="phone"/><br/>
 				<input type="submit" name="PersonalInfoUpdate" value="Update Personal Info"/>
 			</form>
-			<p style="color:red;"></p>
+			<p style="color:red;">
+			<?php
+				if (isset($_SESSION['err'])) {
+					if ($_SESSION['err'] == True) {
+						echo $_SESSION['err_msg'];
+					}
+					$_SESSION['err'] = False;
+				}
+			?>
+			</p>
 		</div>
 	</article>		
 </div>
