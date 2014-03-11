@@ -9,9 +9,10 @@
 		<h1>User Info</h1>
 		<p>
 		<?php
-			echo "USERNAME: " . $_SESSION['username'] . '</br>';
-			echo "PASSWORD: " . $_SESSION['password'] . '</br>';
-			echo "CLASS: " . $_SESSION['user_class'] . '</br>';
+			echo "USERNAME: " . $_SESSION['username'] . '<br/>';
+			echo "PASSWORD: " . $_SESSION['password'] . '<br/>';
+			echo "USER_ID: " . $_SESSION['user_id'] . '<br/>';
+			echo "CLASS: " . $_SESSION['user_class'] . '<br/>';
 		?>
 		</p>
 	</article>
