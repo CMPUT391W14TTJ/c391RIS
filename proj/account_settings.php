@@ -5,7 +5,6 @@
 <body>
 <div id="container">
 	<?php 
-		include('./user.php');
 		include('./inc/navigation.php'); 
 		include('./inc/getInfo.php'); 
 		session_start();

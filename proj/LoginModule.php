@@ -2,7 +2,7 @@
 <head>
 	<?php 
 		include('./inc/PHPconnectionDB.php'); 
-		include('./inc/user.php');
+		include('./classes/user.php');
 	?> 
 	<title>Login Module - Radiology Information System</title>
 	<!-- This is a work in progress I still need to 
@@ -14,7 +14,6 @@
 	<h1>Welcome to The Radiology Information System</h1>
 	<p>
 	<?php	
-		echo "HI";
 		// first check if the post was set
 		if (isset($_POST['validate'])) {
 			$_SESSION['user'] = new User;

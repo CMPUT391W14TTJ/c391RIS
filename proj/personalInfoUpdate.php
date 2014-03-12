@@ -5,7 +5,7 @@
 <BODY>
 <p>
 <?php 	
-	include ('./inc/user.php');
+	include ('./classes/user.php');
 	session_start();
 	include ('./inc/PHPconnectionDB.php');
 	

@@ -1,6 +1,6 @@
 <?php
 	include('PHPconnectionDB.php');
-	include('user.php');
+	include('./classes/user.php');
 	session_start();
 
 	function getUserInfo() {
@@ -24,8 +24,8 @@
 		if (($row = oci_fetch_array($stid, OCI_ASSOC))) {
 			$_SESSION['user']->setUserInfo($row['USER_NAME'], $row['PASSWORD']);
 			//will get rid of this once I have user class working
-			$_SESSION['username'] = $row['USER_NAME'];
-			$_SESSION['password'] = $row['PASSWORD'];
+			//$_SESSION['username'] = $row['USER_NAME'];
+			//$_SESSION['password'] = $row['PASSWORD'];
 		} 
 		return;
 	}
@@ -51,11 +51,11 @@
 			$_SESSION['user']->setPersonalInfo($row['FIRST_NAME'], $row['LAST_NAME'],
 			    $row['ADDRESS'], $row['EMAIL'], $row['PHONE']);
 			// will remove this when I get user class working
-			$_SESSION['first_name'] = $row['FIRST_NAME'];
-			$_SESSION['last_name'] = $row['LAST_NAME'];
-			$_SESSION['address'] = $row['ADDRESS'];
-			$_SESSION['email'] = $row['EMAIL'];
-			$_SESSION['phone'] = $row['PHONE'];
+			//$_SESSION['first_name'] = $row['FIRST_NAME'];
+			//$_SESSION['last_name'] = $row['LAST_NAME'];
+			//$_SESSION['address'] = $row['ADDRESS'];
+			//$_SESSION['email'] = $row['EMAIL'];
+			//$_SESSION['phone'] = $row['PHONE'];
 		}
 		return;
 	}

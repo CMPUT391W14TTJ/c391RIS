@@ -2,7 +2,7 @@
 <head>
 	<title>Homepage - Radiology Information System</title>
 	<?php 
-		include('./inc/user.php');
+		include('./classes/user.php');
 		session_start(); 
 	?>
 </head>
