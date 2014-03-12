@@ -41,8 +41,29 @@
 			$this->password = $password;
 		}
 
-		function outputGarbage() {
-			echo "this is the instance";
+		function setUsername ($username) {
+			$this->username = $username;
 		}
+
+		function setFirstName ($first_name) {
+			$this->first_name = $first_name;
+		}
+
+		function setLastName ($last_name) {
+			$this->last_name = $last_name;
+		}
+
+		function setAddress ($address) {
+			$this->address = $address;
+		}
+
+		function setEmail ($email) {
+			$this->email = $email;
+		}
+		
+		function setPhone ($phone) {
+			$this->phone = $phone;
+		}
+
 	}
 ?>

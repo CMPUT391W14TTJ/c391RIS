@@ -5,6 +5,7 @@
 <BODY>
 <p>
 <?php 	
+	include ('./inc/user.php');
 	session_start();
 	include ('./inc/PHPconnectionDB.php');
 	
@@ -35,7 +36,7 @@
 			exit(1);
 		} else {
 			$sql = "UPDATE users SET user_name = '" . $username .
-			    "' WHERE person_id = " . $_SESSION['user_id'];
+			    "' WHERE person_id = " . $_SESSION['user']->user_id;
 			$stid = oci_parse($conn, $sql);
 			$res = oci_execute($stid);
 			if (!$res) {
@@ -55,14 +56,18 @@
 			 * going to have to check username stuff
 			 */
 			checkUserName($_POST['username']);
-			$_SESSION['username'] = $_POST['username'];
+			$_SESSION['user']->setUsername($_POST['username']);
+			//I will delete this after I get the user class working
+			//$_SESSION['username'] = $_POST['username'];
 		}
 		if (!(empty($_POST['first_name']))) {
 			if ((strlen($_POST['first_name'])) > 24) {
 				$_SESSION['err'] = True;
 				$_SESSION['err_msg'] = "First name must be less than 25 characters";
 			} else {
-				$_SESSION['first_name'] = $_POST['first_name'];
+				$_SESSION['user']->setFirstName($_POST['first_name']);
+				// will get rid of this once I get the user class working
+				//$_SESSION['first_name'] = $_POST['first_name'];
 			}
 		}
 		if (!(empty($_POST['last_name']))) {
@@ -70,7 +75,9 @@
 				$_SESSION['err'] = True;
 				$_SESSION['err_msg'] = "Last name must be less than 25 characters";
 			} else {
-				$_SESSION['last_name'] = $_POST['last_name'];
+				$_SESSION['user']->setLastName($_POST['last_name']);
+				// will get rid off this once I get the user class working
+				//$_SESSION['last_name'] = $_POST['last_name'];
 			}
 		}
 		if (!(empty($_POST['address']))) {
@@ -78,7 +85,9 @@
 				$_SESSION['err'] = True;
 				$_SESSION['err_msg'] = "Address must be less than 25 characters";
 			} else {
-				$_SESSION['address'] = $_POST['address'];
+				$_SESSION['user']->setAddress($_POST['address']);
+				// will get rid of this once I get the user class working
+				//$_SESSION['address'] = $_POST['address'];
 			}
 		}
 		if (!(empty($_POST['email']))) {
@@ -86,7 +95,9 @@
 				$_SESSION['err'] = True;
 				$_SESSION['err_msg'] = "Email must be less than 25 characters";
 			} else {
-				$_SESSION['email'] = $_POST['email'];
+				$_SESSION['user']->setEmail($_POST['email']);
+				// will get rid of this once I get the user class working
+				//$_SESSION['email'] = $_POST['email'];
 			}
 		}
 		if (!(empty($_POST['phone']))) {
@@ -94,7 +105,9 @@
 				$_SESSION['err'] = True;
 				$_SESSION['err_msg'] = "Phone No. must be in format XXX-XXX-XXXX";
 			} else {
-				$_SESSION['phone'] = $_POST['phone'];
+				$_SESSION['user']->setPhone($_POST['phone']);
+				// will get rid of this once I get the user class working
+				//$_SESSION['phone'] = $_POST['phone'];
 			}
 		}
 		
@@ -112,12 +125,12 @@
    			trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
     		} 
 				
-		$sql = "UPDATE persons SET first_name='" . $_SESSION['first_name'] . 
-		    "', last_name = '" .  $_SESSION['last_name'] . 
-		    "', address = '" . $_SESSION['address'] . 
-		    "', email = '" . $_SESSION['email'] .
-		    "', phone = '" . $_SESSION['phone'] . 
-		    "' WHERE person_id = " . $_SESSION['user_id'];
+		$sql = "UPDATE persons SET first_name='" . $_SESSION['user']->first_name . 
+		    "', last_name = '" .  $_SESSION['user']->last_name . 
+		    "', address = '" . $_SESSION['user']->address . 
+		    "', email = '" . $_SESSION['user']->email .
+		    "', phone = '" . $_SESSION['user']->phone . 
+		    "' WHERE person_id = " . $_SESSION['user']->user_id;
 
 		$stid = oci_parse($conn, $sql);
 		$res = oci_execute($stid);

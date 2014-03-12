@@ -19,8 +19,8 @@
 			$_SESSION['user'] = new User;
 			$_SESSION['user']->setUserInfo($_POST['username'], $_POST['pw']); 
 			// will get rid of this once I have user class working properly
-			$_SESSION['username'] = $_POST['username'];
-			$_SESSION['password'] = $_POST["pw"];
+			//$_SESSION['username'] = $_POST['username'];
+			//$_SESSION['password'] = $_POST["pw"];
 
 			$conn = connect();
 			if (!$conn) {
@@ -29,8 +29,8 @@
     			} 
 				
 			$sql = "SELECT person_id, class FROM users WHERE user_name = '" . 
-			    $_SESSION['username'] . "' AND password = '" . 
-			    $_SESSION['password'] . "'";
+			    $_SESSION['user']->username . "' AND password = '" . 
+			    $_SESSION['user']->password . "'";
 
 			$stid = oci_parse($conn, $sql);
 			$res = oci_execute($stid);
@@ -42,8 +42,8 @@
 				$_SESSION['user']->setUserID($row['PERSON_ID']);
 				$_SESSION['user']->setUserClass($row['CLASS']);
 				//will remove this once I have user class working
-				$_SESSION["user_class"] = $row["CLASS"];
-				$_SESSION["user_id"] = $row["PERSON_ID"];
+				//$_SESSION["user_class"] = $row["CLASS"];
+				//$_SESSION["user_id"] = $row["PERSON_ID"];
 				
 				$_SESSION["login"] = True;
 				header( "Location: ./home.php" );
