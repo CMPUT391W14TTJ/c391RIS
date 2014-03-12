@@ -1,7 +1,7 @@
 <div class="form">
-	<h2>Please Enter Your Report Criteria</h2>
-	<form name="report" method="post" action="./ReportGeneratingModule.php">
-		Diagnosis: <input type="text" name="diagnosis"/><br/>
+	<h2>Please Enter Your Search Criteria</h2>
+	<form name="report" method="post" action="./SearchModule.php">
+		Keywords: <input type="text" name="Keywords"/><br/>
 		<p>
 		<?php
 			include('./inc/Date.php');

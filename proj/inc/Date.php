@@ -18,7 +18,7 @@ function date_picker($name, $startyear=NULL, $endyear=NULL)
 
     // Month dropdown
     $html="<select name=\"".$name."month\">";
-
+       $html.="<option value='NULL'>Month</option>";
     for($i=1;$i<=12;$i++)
     {
        $html.="<option value='$i'>$months[$i]</option>";
@@ -27,6 +27,7 @@ function date_picker($name, $startyear=NULL, $endyear=NULL)
    
     // Day dropdown
     $html.="<select name=\"".$name."day\">";
+    $html.="<option value='NULL'>Day</option>";
     for($i=1;$i<=31;$i++)
     {
        $html.="<option $selected value='$i'>$i</option>";
@@ -35,7 +36,7 @@ function date_picker($name, $startyear=NULL, $endyear=NULL)
 
     // Year dropdown
     $html.="<select name=\"".$name."year\">";
-
+    $html.="<option value='NULL'>Year</option>";
     for($i=$endyear;$i>=$startyear;$i--)
     {      
       $html.="<option value='$i'>$i</option>";
