@@ -1,10 +1,5 @@
-<HTML>
-<HEAD>
-	<title>BLAH</title>
-</HEAD>
-<BODY>
-<p>
 <?php 	
+	include ('./inc/user.php');
 	session_start();
 	include ('./inc/PHPconnectionDB.php');
 	if (isset($_POST['PassChange'])) {
@@ -38,7 +33,7 @@
     			} 
 				
 			$sql = "SELECT user_name FROM users WHERE password = '" . $oldPass . 
-			    "' AND person_id = " . $_SESSION['user_id']; 
+			    "' AND person_id = " . $_SESSION['user']->user_id; 
 
 			$stid = oci_parse($conn, $sql);
 			$res = oci_execute($stid);
@@ -54,7 +49,7 @@
 			} 
 
 			$sql = "UPDATE users SET password='" . $newPass1 . "' " . 
-			    "WHERE person_id = " . $_SESSION['user_id'];
+			    "WHERE person_id = " . $_SESSION['user']->user_id;
 			$stid = oci_parse($conn, $sql);
 			$res = oci_execute($stid);
 			
@@ -66,7 +61,9 @@
 				$_SESSION['pass_err_msg'] = "Failed to update password.";
 			} else {
 				$_SESSION['pass_change_err'] = False;
-				$_SESSION['password'] = $newPass1;
+				$_SESSION['user']->setPassword($newPass1);
+				//will delete this once I get user class working
+				//$_SESSION['password'] = $newPass1;
 			}
 			header( 'Location: ./account_settings.php' );
 			exit(1);
@@ -75,6 +72,3 @@
 			header( "Location: ./index.html" );
 	}
 ?>
-</p>
-</BODY>
-</HTML>

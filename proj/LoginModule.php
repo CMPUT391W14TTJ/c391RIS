@@ -1,6 +1,9 @@
 <html>
 <head>
-	<?php include('./inc/PHPconnectionDB.php'); ?> 
+	<?php 
+		include('./inc/PHPconnectionDB.php'); 
+		include('./inc/user.php');
+	?> 
 	<title>Login Module - Radiology Information System</title>
 	<!-- This is a work in progress I still need to 
 		Implement many features. 
@@ -13,6 +16,9 @@
 	<?php 
 		// first check if the post was set
 		if (isset($_POST['validate'])) {
+			$_SESSION['user'] = new User;
+			$_SESSION['user']->setUserInfo($_POST['username'], $_POST['pw']); 
+			// will get rid of this once I have user class working properly
 			$_SESSION['username'] = $_POST['username'];
 			$_SESSION['password'] = $_POST["pw"];
 
@@ -33,6 +39,9 @@
 			 * if not deny them. 
 			 */
 			if (($row = oci_fetch_array($stid, OCI_ASSOC))) {
+				$_SESSION['user']->setUserID($row['PERSON_ID']);
+				$_SESSION['user']->setUserClass($row['CLASS']);
+				//will remove this once I have user class working
 				$_SESSION["user_class"] = $row["CLASS"];
 				$_SESSION["user_id"] = $row["PERSON_ID"];
 				

@@ -36,5 +36,13 @@
 		function setUserClass ($user_class) {
 			$this->user_class = $user_class;
 		}
+		
+		function setPassword ($password) {
+			$this->password = $password;
+		}
+
+		function outputGarbage() {
+			echo "this is the instance";
+		}
 	}
 ?>

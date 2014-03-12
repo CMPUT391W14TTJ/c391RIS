@@ -1,13 +1,14 @@
 <HTML>
 <head>
 	<title>Account Settings - Radiology Information System</title>
-	<?php session_start(); ?>
 </head>
 <body>
 <div id="container">
 	<?php 
+		include('./user.php');
 		include('./inc/navigation.php'); 
 		include('./inc/getInfo.php'); 
+		session_start();
 		getUserInfo();
 		getPersonalInfo();
 	?>
@@ -15,6 +16,17 @@
 		<h1>User Info</h1>
 		<p>
 		<?php
+			
+			echo "USERNAME: " . $_SESSION['user']->username . '<br/>';
+			echo "PASSWORD: " . $_SESSION['user']->password . '<br/>';
+			echo "USER_ID: " . $_SESSION['user']->user_id . '<br/>';
+			echo "CLASS: " . $_SESSION['user']->user_class . '<br/>';
+			echo "FIRST_NAME: " . $_SESSION['user']->first_name . '<br/>';
+			echo "LAST_NAME: " . $_SESSION['user']->last_name . '<br/>';
+			echo "ADDRESS: " . $_SESSION['user']->address . '<br/>';
+			echo "EMAIL: " . $_SESSION['user']->email . '<br/>';
+			echo "PHONE: " . $_SESSION['user']->phone . '<br/>';
+			/*
 			echo "USERNAME: " . $_SESSION['username'] . '<br/>';
 			echo "PASSWORD: " . $_SESSION['password'] . '<br/>';
 			echo "USER_ID: " . $_SESSION['user_id'] . '<br/>';
@@ -24,6 +36,7 @@
 			echo "ADDRESS: " . $_SESSION['address'] . '<br/>';
 			echo "EMAIL: " . $_SESSION['email'] . '<br/>';
 			echo "PHONE: " . $_SESSION['phone'] . '<br/>';
+			*/
 		?>
 		</p>
 	</article>
