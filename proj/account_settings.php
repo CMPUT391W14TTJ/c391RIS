@@ -25,17 +25,6 @@
 			echo "ADDRESS: " . $_SESSION['user']->address . '<br/>';
 			echo "EMAIL: " . $_SESSION['user']->email . '<br/>';
 			echo "PHONE: " . $_SESSION['user']->phone . '<br/>';
-			/*
-			echo "USERNAME: " . $_SESSION['username'] . '<br/>';
-			echo "PASSWORD: " . $_SESSION['password'] . '<br/>';
-			echo "USER_ID: " . $_SESSION['user_id'] . '<br/>';
-			echo "CLASS: " . $_SESSION['user_class'] . '<br/>';
-			echo "FIRST_NAME: " . $_SESSION['first_name'] . '<br/>';
-			echo "LAST_NAME: " . $_SESSION['last_name'] . '<br/>';
-			echo "ADDRESS: " . $_SESSION['address'] . '<br/>';
-			echo "EMAIL: " . $_SESSION['email'] . '<br/>';
-			echo "PHONE: " . $_SESSION['phone'] . '<br/>';
-			*/
 		?>
 		</p>
 	</article>
