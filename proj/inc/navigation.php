@@ -7,5 +7,6 @@
 	    <li><a href="./upload.php" title="Uploading Module">Upload</a></li>
 	    <li><a href="./search.php" title="Search Module">Search</a></li>
 	    <li><a href="./data_analysis.php" title="Data Analysis">Data Analysis</a></li>
+	    <li><a href="./logout.php" title="Logout">Logout</a></li>
 	</nav>
 <article>
