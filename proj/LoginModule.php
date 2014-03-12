@@ -13,7 +13,8 @@
 	<?php session_start(); ?>
 	<h1>Welcome to The Radiology Information System</h1>
 	<p>
-	<?php 
+	<?php	
+		echo "HI";
 		// first check if the post was set
 		if (isset($_POST['validate'])) {
 			$_SESSION['user'] = new User;
