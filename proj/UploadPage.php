@@ -3,22 +3,31 @@
 	<title>Upload Record - Radiology Information System</title>
 </head>
 <body>
-	<?php include( './inc/Date.php' ); ?>
+	<?php 
+		error_reporting(E_ALL);
+		ini_set('error_reporting', E_ALL);
+		include( './inc/Date.php' );
+		include( './inc/PHPconnectionDB.php' );
+		include( './Upload/DisplayIDs.php' );
+	 ?>
 	<article class="acc_settings">
 		<h2>Upload Radiology Record:</h2>
 		<div class="form">
 			<h3>Enter Record Information:</h3>
 			<form name="pass_change" method="post" action="">
-				Record ID: <input type="text" name="record_id"/><br/>
+				Record ID: <input type="text" name="record_id"/><span style="color: #FF0000;">*</span><br/>
 				Patient ID: <select name="patient_id">
 						<option value="empty">empty</option>
-					    </select>&nbsp;&nbsp;&nbsp;  
+						<?php displayPatients(); ?>
+					    </select><span style="color: #FF0000;">*</span>&nbsp;&nbsp;&nbsp;  
 				Doctor ID: <select name="doctor_id">
 						<option value="empty">empty</option>
-					    </select>&nbsp;&nbsp;&nbsp; 
+						<?php displayDoctors(); ?>
+					    </select><span style="color: #FF0000;">*</span>&nbsp;&nbsp;&nbsp; 
 				Radiologist ID: <select name="radiologist_id">
 						<option value="empty">empty</option>
-					    </select><br/>
+						<?php displayRadiologists(); ?>
+					    </select><span style="color: #FF0000;">*</span><br/>
 				Test Type: <input type="text" name="test_type"/><br/>
 				<!-- will put date here --!>
 				Prescribing Date:
@@ -45,6 +54,8 @@
 				*/
 			?>
 			</p>
+			<?php 
+			?>
 		</div>
 	</article>
 </body>
