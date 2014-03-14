@@ -14,7 +14,7 @@
 		<h2>Upload Radiology Record:</h2>
 		<div class="form">
 			<h3>Enter Record Information:</h3>
-			<form name="pass_change" method="post" action="">
+			<form name="RadiologyRecord" method="post" action="./Upload/CheckRadiologyForm.php">
 				Record ID: <input type="text" name="record_id"/><span style="color: #FF0000;">*</span><br/>
 				Patient ID: <select name="patient_id">
 						<option value="empty">empty</option>
@@ -40,18 +40,16 @@
 				?><br/>
 				Diagnosis: <p><textarea name="diagnosis" cols="40" rows="5"></textarea></p>
 				Description: <p><textarea name="description" cols="40" rows="5"></textarea></p>
-				<input type="submit" name="uploadrecord" value="Upload Record"/>
+				<input type="submit" name="uploadRecord" value="Upload Record"/>
 			</form>
 			<p style="color:red;">
 			<?php
-				/*
-				if (isset($_SESSION['pass_change_err'])) {
-					if ($_SESSION['pass_change_err'] == True) {
-						echo $_SESSION['pass_err_msg'];
+				if (isset($_SESSION['err'])) {
+					if ($_SESSION['err'] == True) {
+						echo $_SESSION['err_msg'];
 					}
-					$_SESSION['pass_change_err'] = False;
+					$_SESSION['err'] = False;
 				}
-				*/
 			?>
 			</p>
 			<?php 
