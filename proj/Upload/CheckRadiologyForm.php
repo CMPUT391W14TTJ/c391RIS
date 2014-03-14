@@ -3,7 +3,33 @@
 	 * Check if the radiology record was filled out appropriately
 	 * For now we will just check that there is a valid record_id/doctorid/etc..
 	 */
-	function checkRecordID() {
+	error_reporting(E_ALL);
+	ini_set('error_reporting', E_ALL);
+	session_start();
+	include( '../inc/PHPconnectionDB.php' );
+
+	function checkRecordID($recordID) {
+		$conn = connect();
+		if (!$conn) {
+   			$e = oci_error();
+   			trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
+   		} 
+			
+		$sql = "SELECT record_id FROM radiology_record WHERE record_id = " . $recordID;
+		$stid = oci_parse($conn, $sql);
+		$res = oci_execute($stid);
+		if (($row = oci_fetch_array($stid, OCI_ASSOC))) {
+			$_SESSION['err'] = True;
+			$_SESSION['err_msg'] = "record_id already exists in the system! Please choose a unique ID.";
+			header('Location: ../UploadPage.php');
+			exit(1);
+		}
+	}
+
+	function insertRecordWithDate() {
+	}
+
+	function insertRecordWithoutDate() {
 	}
 
 	if (isset($_POST['uploadRecord'])) {
@@ -18,6 +44,8 @@
 			header('Location: ../UploadPage.php');
 			exit(1);	
 		} else {
+			checkRecordID($_POST['record_id']);
+			
 			$_SESSION['err'] = False;
 			header('Location: ../UploadPage.php');
 			exit(1);
