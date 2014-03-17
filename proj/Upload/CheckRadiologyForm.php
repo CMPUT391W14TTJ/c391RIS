@@ -1,3 +1,8 @@
+<html>
+<head>
+	<title>title</title>
+</head>
+<body>
 <?php
 	/*
 	 * Check if the radiology record was filled out appropriately
@@ -30,6 +35,23 @@
 	}
 
 	function insertRecordWithoutDate() {
+		$conn = connect();
+		if (!$conn) {
+   			$e = oci_error();
+   			trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
+   		} 
+	
+		$sql = "INSERT INTO radiology_record (record_id, patient_id, doctor_id, radiologist_id" .
+			", test_type, diagnosis, description) VALUES (111, 17, 9, 5, 'Ultrasound'" . 
+			", 'Pregnant', 'Wont make it to next week')";	
+		$stid = oci_parse($conn, $sql);
+		$res = oci_execute($stid);
+		if (!$res) {
+			$_SESSION['err'] = True;
+			$_SESSION['err_msg'] = "Failed to insert record.";
+			header('Location: ../UploadPage.php');
+			exit(1);
+		}
 	}
 
 	if (isset($_POST['uploadRecord'])) {
@@ -45,7 +67,7 @@
 			exit(1);	
 		} else {
 			checkRecordID($_POST['record_id']);
-			
+			insertRecordWithoutDate();
 			$_SESSION['err'] = False;
 			header('Location: ../UploadPage.php');
 			exit(1);
@@ -55,3 +77,5 @@
 		exit(1);
 	}	
 ?>
+</body>
+</html>
