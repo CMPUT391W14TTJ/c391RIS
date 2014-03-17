@@ -34,11 +34,11 @@
 				<!-- will put date here --!>
 				Prescribing Date:
 				<?php
-					echo date_picker('prescribe_date');
+					echo date_picker('prescribe_');
 				?>
 				Test Date:
 				<?php
-					echo date_picker('test_date');
+					echo date_picker('test_');
 				?><br/>
 				Diagnosis: <p><textarea name="diagnosis" cols="40" rows="5"></textarea></p>
 				Description: <p><textarea name="description" cols="40" rows="5"></textarea></p>

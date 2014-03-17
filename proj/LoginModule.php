@@ -41,9 +41,11 @@
 				$_SESSION['user']->setUserClass($row['CLASS']);
 				//will remove this once I have user class working
 				
+				oci_close();	
 				$_SESSION["login"] = True;
 				header( "Location: ./home.php" );
 			} else {
+				oci_close();
 				header( "Location: ./bad_login.html" );
 			}
 		} else {

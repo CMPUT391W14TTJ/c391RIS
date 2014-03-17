@@ -29,26 +29,75 @@
 			header('Location: ../UploadPage.php');
 			exit(1);
 		}
+		oci_close();
 	}
 
-	function insertRecordWithDate() {
+	function buildTestDateQuery() {
+		$testMonth = sprintf("%02s", $_POST['test_month']);
+		$testDay = sprintf("%02s", $_POST['test_day']);
+		$testYear = sprintf("%02s", $_POST['test_year']);
+
+		$sql = 'INSERT INTO radiology_record (record_id, patient_id, doctor_id, radiologist_id' .
+			', test_type, diagnosis, description, prescribing_date, test_date) VALUES (' . 
+			$_POST['record_id'] . ' ,' . $_POST['patient_id'] . ',' . $_POST['doctor_id'] . 
+			' ,' . $_POST['radiologist_id'] . ', \'' . $_POST['test_type'] . '\' ' . ',\''. 
+			$_POST['diagnosis'] . '\', ' . '\'' . $_POST['description'] . '\', TO_DATE(\'' . $testYear .
+			$testMonth . $testDay . '\', \'YYYYMMDD\'))';	
+		return $sql;
 	}
 
-	function insertRecordWithoutDate($recordID, $patientID, $doctorID, $radiologistID) {
+	function buildPrescribeDateQuery() {
+		$prscMonth = sprintf("%02s", $_POST['prescribe_month']);
+		$prscDay = sprintf("%02s", $_POST['prescribe_day']);
+		$prscYear = sprintf("%02s", $_POST['prescribe_year']);
+
+		$sql = 'INSERT INTO radiology_record (record_id, patient_id, doctor_id, radiologist_id' .
+			', test_type, diagnosis, description, prescribing_date, test_date) VALUES (' . 
+			$_POST['record_id'] . ' ,' . $_POST['patient_id'] . ',' . $_POST['doctor_id'] . 
+			' ,' . $_POST['radiologist_id'] . ', \'' . $_POST['test_type'] . '\' ' . ',\''. 
+			$_POST['diagnosis'] . '\', ' . '\'' . $_POST['description'] . '\', TO_DATE(\'' . 
+			$prscYear . $prscMonth . $prscDay .'\', \'YYYYMMDD\'))';
+		return $sql;
+	}
+	
+	function buildFullDateQuery() {
+		$prscMonth = sprintf("%02s", $_POST['prescribe_month']);
+		$prscDay = sprintf("%02s", $_POST['prescribe_day']);
+		$prscYear = sprintf("%02s", $_POST['prescribe_year']);
+
+		$testMonth = sprintf("%02s", $_POST['test_month']);
+		$testDay = sprintf("%02s", $_POST['test_day']);
+		$testYear = sprintf("%02s", $_POST['test_year']);
+
+		$sql = 'INSERT INTO radiology_record (record_id, patient_id, doctor_id, radiologist_id' .
+			', test_type, diagnosis, description, prescribing_date, test_date) VALUES (' . 
+			$_POST['record_id'] . ' ,' . $_POST['patient_id'] . ',' . $_POST['doctor_id'] . 
+			' ,' . $_POST['radiologist_id'] . ', \'' . $_POST['test_type'] . '\' ' . ',\''. 
+			$_POST['diagnosis'] . '\', ' . '\'' . $_POST['description'] . '\', TO_DATE(\'' . 
+			$prscYear . $prscMonth . $prscDay .'\', \'YYYYMMDD\'), TO_DATE(\'' . $testYear .
+			$testMonth . $testDay . '\', \'YYYYMMDD\'))';	
+		return $sql;
+	}
+
+	function buildNoDateQuery() {
+		$sql = "INSERT INTO radiology_record (record_id, patient_id, doctor_id, radiologist_id" .
+			", test_type, diagnosis, description) VALUES (" . $_POST['record_id'] . " ," . 
+			$_POST['patient_id'] . "," . $_POST['doctor_id'] . " ," . $_POST['radiologist_id'] . 
+			", '" . $_POST['test_type'] . "' " . ",'". $_POST['diagnosis'] . "', " . "'" . 
+			$_POST['description'] . "')";	
+		return $sql;		
+	}
+
+	/*
+	 * Inserts a record if dates are not present
+	 */
+	function insertRadiologyRecord($sql) {
 		$conn = connect();
 		if (!$conn) {
    			$e = oci_error();
    			trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
    		} 
-		$sql = "INSERT INTO radiology_record (record_id, patient_id, doctor_id, radiologist_id" .
-			", test_type, diagnosis, description) VALUES (" . $recordID . " ," . $patientID .
-			"," . $doctorID . " ," . $radiologistID . ", '" . $_POST['test_type'] . "' " . 
-			",'". $_POST['diagnosis'] . "', " . "'" . $_POST['description'] . "')";	
-		/*$sql = "INSERT INTO radiology_record (record_id, patient_id, doctor_id, radiologist_id" .
-			", test_type, diagnosis, description) VALUES (" . $recordID . " ," . $patientID .
-			"," . $doctorID . " ," . $radiologistID . ", 'Ultrasound'" . 
-			", 'Pregnant', 'Wont make it to next week')";	
-		*/
+
 		$stid = oci_parse($conn, $sql);
 		$res = oci_execute($stid);
 		if (!$res) {
@@ -57,6 +106,27 @@
 			header('Location: ../UploadPage.php');
 			exit(1);
 		}
+	}
+
+	function checkPrscDate() {
+
+		if ($_POST['prescribe_month'] == 'NULL'
+			|| $_POST['prescribe_day'] == 'NULL'
+			|| $_POST['prescribe_year'] == 'NULL') {
+			
+			return False;
+		}	
+		return True;
+	}
+
+	function checkTestDate() {
+		if ($_POST['test_month'] == 'NULL'
+			|| $_POST['test_year'] == 'NULL'
+			|| $_POST['test_day'] == 'NULL') {
+			
+			return False;		
+		}
+		return True;
 	}
 
 	if (isset($_POST['uploadRecord'])) {
@@ -72,11 +142,26 @@
 			exit(1);	
 		} else {
 			checkRecordID($_POST['record_id']);
-			insertRecordWithoutDate($_POST['record_id'], $_POST['patient_id'],
-				$_POST['doctor_id'], $_POST['radiologist_id']);
+			
+			$testFlag = checkTestDate();
+			$prscFlag = checkPrscDate();	
+			
+			if ($testFlag && $prscFlag) {
+				$sql = buildFullDateQuery();
+			} else if ($testFlag && !$prscFlag) {
+				$sql = buildTestDateQuery();
+			} else if (!$testFlag && $prscFlag) {
+				$sql = buildPrescribeDateQuery();
+			} else {
+				$sql = buildNoDateQuery();
+			}
+
+			insertRadiologyRecord($sql);	
+
 			$_SESSION['err'] = False;
 			header('Location: ../UploadPage.php');
 			exit(1);
+		
 		}	
 	} else {
 		header( 'Location: ../UploadPage.php');
