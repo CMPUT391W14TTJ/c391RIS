@@ -1,6 +1,6 @@
 <div class="form">
 	<h2>Please Enter Your Search Criteria</h2>
-	<form name="report" method="post" action="./SearchModule.php">
+	<form name="report" method="post" action="./Search.php">
 		Keywords: <input type="text" name="Keywords"/><br/>
 		<p>
 		<?php

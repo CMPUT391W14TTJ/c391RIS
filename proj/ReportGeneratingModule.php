@@ -47,7 +47,7 @@
 		<th>Address</th>
 		<th>Phone Number</th>
 		<th>Test Date</th>
-		</tr>';
+		</tr>';oci_close ( resource $conn );
 
 		while(($row = oci_fetch_array($stid, OCI_ASSOC))) {
 			echo '<tr>';
@@ -59,6 +59,7 @@
 			echo '</tr>';
 		}
 		echo '</table>';
+		oci_close($conn);
 	?>
 	</p>
 </html>
