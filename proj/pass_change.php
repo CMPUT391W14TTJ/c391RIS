@@ -44,6 +44,7 @@
 			if (!($row = oci_fetch_array($stid, OCI_ASSOC))) {
 				$_SESSION['pass_change_err'] = True;
 				$_SESSION['pass_err_msg'] = "Invalid Old Password!";
+				oci_close();
 				header( 'Location: ./account_settings.php' );
 				exit(1);
 			} 
@@ -65,6 +66,7 @@
 				//will delete this once I get user class working
 				//$_SESSION['password'] = $newPass1;
 			}
+			oci_close();
 			header( 'Location: ./account_settings.php' );
 			exit(1);
 			

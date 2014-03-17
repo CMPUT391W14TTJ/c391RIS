@@ -16,6 +16,7 @@
 			echo "<option value='" . $row['PERSON_ID'] .  "'>" .
 			    $row['FIRST_NAME'] . " " . $row['LAST_NAME'] . "</option>";	
 		} 
+		oci_close();
 	}
 
 	function displayDoctors() {
@@ -34,6 +35,7 @@
 			echo "<option value='" . $row['PERSON_ID'] .  "'>" .
 			    $row['FIRST_NAME'] . " " . $row['LAST_NAME'] . "</option>";	
 		} 
+		oci_close();
 	}
 
 	function displayRadiologists() {
@@ -52,5 +54,6 @@
 			echo "<option value='" . $row['PERSON_ID'] .  "'>" .
 			    $row['FIRST_NAME'] . " " . $row['LAST_NAME'] . "</option>";	
 		} 
+		oci_close();
 	}
 ?>

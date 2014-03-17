@@ -32,6 +32,7 @@
 		if ($row = oci_fetch_array($stid, OCI_ASSOC)) {
 			$_SESSION['err'] = True;
 			$_SESSION['err_msg'] = "Username already exists!";
+			oci_close();
 			header( 'Location: ./account_settings.php' );
 			exit(1);
 		} else {
@@ -42,9 +43,11 @@
 			if (!$res) {
 				$_SESSION['err'] = True;
 				$_SESSION['err_msg'] = "Failed to update user name";
+				oci_close();
 				header( 'Location: ./account_settings.php' );
 				exit(1);
 			} else {
+				oci_close();
 				$_SESSION['err'] = False;
 			}
 		}

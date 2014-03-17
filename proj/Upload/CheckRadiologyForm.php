@@ -26,6 +26,7 @@
 		if (($row = oci_fetch_array($stid, OCI_ASSOC))) {
 			$_SESSION['err'] = True;
 			$_SESSION['err_msg'] = "record_id already exists in the system! Please choose a unique ID.";
+			oci_close();
 			header('Location: ../UploadPage.php');
 			exit(1);
 		}

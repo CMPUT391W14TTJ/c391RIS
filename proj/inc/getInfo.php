@@ -27,6 +27,7 @@
 			//$_SESSION['username'] = $row['USER_NAME'];
 			//$_SESSION['password'] = $row['PASSWORD'];
 		} 
+		oci_close();
 		return;
 	}
 
@@ -57,6 +58,7 @@
 			//$_SESSION['email'] = $row['EMAIL'];
 			//$_SESSION['phone'] = $row['PHONE'];
 		}
+		oci_close();
 		return;
 	}
 ?>
