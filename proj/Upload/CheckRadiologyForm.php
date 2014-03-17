@@ -34,16 +34,21 @@
 	function insertRecordWithDate() {
 	}
 
-	function insertRecordWithoutDate() {
+	function insertRecordWithoutDate($recordID, $patientID, $doctorID, $radiologistID) {
 		$conn = connect();
 		if (!$conn) {
    			$e = oci_error();
    			trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
    		} 
-	
 		$sql = "INSERT INTO radiology_record (record_id, patient_id, doctor_id, radiologist_id" .
-			", test_type, diagnosis, description) VALUES (111, 17, 9, 5, 'Ultrasound'" . 
+			", test_type, diagnosis, description) VALUES (" . $recordID . " ," . $patientID .
+			"," . $doctorID . " ," . $radiologistID . ", '" . $_POST['test_type'] . "' " . 
+			",'". $_POST['diagnosis'] . "', " . "'" . $_POST['description'] . "')";	
+		/*$sql = "INSERT INTO radiology_record (record_id, patient_id, doctor_id, radiologist_id" .
+			", test_type, diagnosis, description) VALUES (" . $recordID . " ," . $patientID .
+			"," . $doctorID . " ," . $radiologistID . ", 'Ultrasound'" . 
 			", 'Pregnant', 'Wont make it to next week')";	
+		*/
 		$stid = oci_parse($conn, $sql);
 		$res = oci_execute($stid);
 		if (!$res) {
@@ -67,7 +72,8 @@
 			exit(1);	
 		} else {
 			checkRecordID($_POST['record_id']);
-			insertRecordWithoutDate();
+			insertRecordWithoutDate($_POST['record_id'], $_POST['patient_id'],
+				$_POST['doctor_id'], $_POST['radiologist_id']);
 			$_SESSION['err'] = False;
 			header('Location: ../UploadPage.php');
 			exit(1);

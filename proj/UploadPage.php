@@ -7,6 +7,7 @@
 		error_reporting(E_ALL);
 		ini_set('error_reporting', E_ALL);
 		session_start();
+		include( './inc/navigation.php' );
 		include( './inc/Date.php' );
 		include( './inc/PHPconnectionDB.php' );
 		include( './Upload/DisplayIDs.php' );
