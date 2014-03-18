@@ -36,18 +36,19 @@ function buildQuery($image) {
    	} 
 			
 	$sql = "INSERT INTO pacs_images (record_id, image_id, regular_size) VALUES (" . 
-		$_POST['record_id'] . ', ' . $id . ', \'' . $image . '\'';
+		$_POST['record_id'] . ', ' . $imageID . ', \'' . $image . '\'';
 	$stid = oci_parse($conn, $sql);
 	$res = oci_execute($stid);
-	echo $sql;
+
 	if (!$res) {
 		$_SESSION['err'] = True;
 		$_SESSION['err_msg'] = "Failed to add image";
 	} 
-	/*oci_close();
+	oci_close();
+	
 	header('Location: ../UploadPage.php');
 	exit(1);
-	*/
+
 }
 
 $allowedExts = array("gif", "jpeg", "jpg", "png");
