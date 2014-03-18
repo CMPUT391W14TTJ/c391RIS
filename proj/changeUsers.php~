@@ -1,0 +1,57 @@
+<HTML>
+<HEAD>
+	<title>UM Change Users </title>
+</HEAD>
+<BODY>
+<?php
+	session_start();
+	include('./inc/PHPconnectionDB.php');
+	include('./classes/user.php');
+	$conn = connect();
+	if (!$conn) {
+   		$e = oci_error();
+   		trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
+  	}
+
+	if (isset($_POST['ChangeUsers'])) { 	
+				$newusername = NULL;
+				$newpassword = NULL;
+				$newclass = NULL;
+				$newpersonid = NULL;
+				$newdateregistered = NULL;
+			if(!(empty($_POST['oldUsername']))) {
+				$oldusername = $_POST['oldUsername'];
+			}
+			if(!(empty($_POST['newUsername']))) {
+				$newusername = $_POST['newUsername'];
+			}
+			if(!(empty($_POST['newPassword']))) {
+				$newpassword = $_POST['newPassword'];
+				}
+			if(!(empty($_POST['newClass']))) {
+				$newclass = $_POST['newClass'];
+				}
+			if(!(empty($_POST['newPersonID']))) {
+				$newpersonid = $_POST['newPersonID'];
+				}
+			if(!(empty($_POST['newDateRegistered']))) {
+				$newdateregistered = $_POST['newDateRegistered'];
+				}
+					
+			$sql = "UPDATE users SET USER_NAME='" . $newusername .
+					"', PASSWORD='" . $newpassword .
+					"', CLASS='" . $newclass .
+					"', PERSON_ID=" . $newpersonid .
+					",DATE_REGISTERED='" . $newdacontrol acteregistered .
+					"' WHERE PERSON_ID=" . $newid;
+			$stid = ($conn, $sql);
+			$res = oci_execute($stid);			
+
+	}
+		header( "Location: ./um_user.php");
+		oci_free_statement($stid);
+		oci_close($conn);
+	
+	?>
+</BODY>
+</HTML>

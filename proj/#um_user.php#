@@ -1,0 +1,61 @@
+<HTML>
+<head>
+	<title>User Management - Radiology Information System</title>
+	<?php
+		include('./inc/PHPconnectionDB.php');
+	?>
+</head>
+<body>	
+	<?php
+		include('./inc/navigation.php');
+	?>
+	<h1>Select A Different Table To Edit Here</h1>
+	<article class="navigation">
+		<nav>
+			<li><a href="./um_user.php" title="um_Users">Users</a/></li>
+			<li><a href="./um_persons.php" title="um_Persons">Persons</a/></li>
+			<li><a href="./um_familyDoctor.php" title="um_familyDoctor">Family Doctor</a/></li>
+		</nav>
+	</article>
+	<?php	
+		session_start();
+		$conn = connect();
+		if (!$conn) {
+			$e = oci_error();
+			trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
+		}
+		$sql = "SELECT * FROM Users";
+		$stid = oci_parse($conn, $sql);
+		$result = oci_execute($stid);
+	?>
+	<TABLE BORDER = 1>
+		<TR>
+		<TD>USERNAME</TD>
+		<TD>PASSWORD</TD>
+		<TD>CLASS</TD>
+		<TD>PERSON ID</TD>
+		<TD>DATE REGISTERED</TD>
+		</TR>
+		<?php
+		while($row = oci+fetch_array($stid,OCI_ASSOC+OCI_RETURN_NULLS)){?><TR><?php
+			foreach ($row as $item) {
+?><TD><?php
+				$row['user_name']
+				?></TD><TD><?php
+				$row['password']
+				?></TD><TD><?php
+				$row['class']
+				?></TD><TD><?php
+				$row['person_id']
+				?></TD><TD><?php
+				$row['date_registered']
+				?></TD><?php
+				}
+			?></TR>
+			<?php
+			}
+		}
+		?>
+	</TABLE>
+</body>
+</HTML>

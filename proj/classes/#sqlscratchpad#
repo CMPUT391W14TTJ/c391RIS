@@ -1,0 +1,4 @@
+select user_name, first_name, last_name, doctor_id
+from users u, persons p, family_doctor fd
+where u.person_id = p.person_id and
+p.person_id = fd.patient_id;
