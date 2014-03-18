@@ -12,3 +12,4 @@ INDEXTYPE is CTXSYS.CONTEXT;
 
 CREATE INDEX person_last_name on persons(last_name)
 INDEXTYPE is CTXSYS.CONTEXT;
+

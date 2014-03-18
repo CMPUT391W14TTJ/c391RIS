@@ -10,7 +10,7 @@
 	//Get the variables we need
 	$keywords = $_POST['Keywords'];
 	$replaces = array(" ", ";");
-	$keywords = str_replace($replaces, "&", $keywords);
+	//$keywords = str_replace($replaces, ",", $keywords);
 	//Get the variables we need
 	$start_month = sprintf("%02s", $_POST['Start_month']);
 	$start_day = sprintf("%02s", $_POST['Start_day']);

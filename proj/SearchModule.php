@@ -10,16 +10,24 @@ function searchDataAdmin($keywords, $start, $end){
 	if(empty($keywords)){
 		$kFlag=false;
 	}
-	if(!strpos($start, 'NULL') || !strpos($end, 'NULL')){
+	
+	if(!is_numeric($start)){
+		echo '<p>'.$start. '</p>';
 		$dFlag = false;
 	}
-	
+	if(!is_numeric($end)){
+		echo '<p>'.$end. '</p>';
+		$dFlag = false;
+	}	
 	if($kFlag && $dFlag){
-		$sql = select(). keywords($keywords). date($start, $end);
+		echo '<p> Date and keyword </p>';
+		$sql = select(). keywords($keywords). dates($start, $end);
 	}else if($kFlag){
+		echo '<p> Keyword </p>';
 		$sql = select(). keywords($keywords);
 	}else if($dFlag){
-		$sql = select(). date($start, $end);
+		echo '<p> Dates </p>';
+		$sql = select(). dates($start, $end);
 	}else{
 		$sql = select();
 	}		
@@ -61,9 +69,8 @@ function searchDataAdmin($keywords, $start, $end){
 }
 
 function select(){
-	return 'SELECT r.record_id, p.first_name || \' \' || p.last_name as patient_name, 
-		d.first_name || \' \' || d.last_name as doctor_name, r.first_name ||
-		\' \' || r.last_name as radiologist_name, r.test_type, r.prescribing_date,
+	return 'SELECT r.record_id, p.full_name, 
+		d.full_name as doctor_name, r.full_name as radiologist_name, r.test_type, r.prescribing_date,
 		r.test_date, r.diagnosis, r.description
 		FROM radiology_record r, persons p, persons d, persons r
 		WHERE r.patient_id = p.person_id AND r.doctor_id = d.person_id
@@ -71,10 +78,33 @@ function select(){
 }
 
 function keywords($keywords){
-	return ' contains(p.first_name, \'' . $keywords . '\', 1) > 0
-		OR contains(p.last_name, \'' . $keywords . '\', 1) > 0
-		OR contains(diagnosis, \'' . $keywords . '\', 1) > 0
-		OR contains(description, \'' . $keywords . '\', 1) > 0';
+	echo '<p>'.$keywords.'</p>';
+	$tok = strtok($keywords, " ");
+	$array = array();
+
+	while ($tok !== false) {
+		array_push($array, $tok);
+    		$tok = strtok(" \n\t");
+	}
+	$string = "";
+
+	for($i=0; $i<count($array); $i++){
+		$string = $string . ' AND(';
+		$string = $string . ' (contains(p.first_name, \'' . $array[$i]. '\', '.$i.'1'. ') > 0)';
+		$string = $string . ' OR (contains(p.last_name, \'' . $array[$i].'\', '.$i.'2'. ') > 0)';
+		$string = $string . ' OR (contains(r.diagnosis, \'' . $array[$i]. '\', '.$i.'3'. ') > 0)';
+		$string = $string . ' OR (contains(r.description, \'' . $array[$i]. '\','.$i.'4'. ' ) > 0)';
+		$string = $string . ')';
+	}
+	return $string;
+}
+
+function dates($start, $end){
+	$string = ' AND (r.test_date BETWEEN
+			TO_DATE(\'' . $start . '\', \'MMDDYYYY\')
+			AND
+			TO_DATE(\'' . $end . '\', \'MMDDYYYY\'))';
+	return $string;
 }
 ?> 
 
