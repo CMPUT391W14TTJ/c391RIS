@@ -37,6 +37,24 @@
 		} 
 		oci_close();
 	}
+	
+	function displayRecords() {
+		$conn = connect();
+		if (!$conn) {
+   			$e = oci_error();
+   			trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
+   		} 
+			
+		$sql = "SELECT record_id FROM radiology_record"; 
+
+		$stid = oci_parse($conn, $sql);
+		$res = oci_execute($stid);
+		while (($row = oci_fetch_array($stid, OCI_ASSOC))) {
+			echo "<option value='" . $row['RECORD_ID'] .  "'>" .
+			    $row['RECORD_ID'] . "</option>";	
+		} 
+		oci_close();
+	}
 
 	function displayRadiologists() {
 		$conn = connect();

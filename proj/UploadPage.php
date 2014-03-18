@@ -12,7 +12,7 @@
 		include( './inc/PHPconnectionDB.php' );
 		include( './Upload/DisplayIDs.php' );
 	 ?>
-	<article class="acc_settings">
+	<article class="upload_record">
 		<h2>Upload Radiology Record:</h2>
 		<div class="form">
 			<h3>Enter Record Information:</h3>
@@ -58,5 +58,19 @@
 			?>
 		</div>
 	</article>
+	<article class="upload_image">
+		<h2>Upload Image To Radiology Record:</h2>
+		<div class="form">
+			<form method="post" enctype="multipart/form-data" action="./Upload/UploadImage.php">
+			Record ID: <select name="record_id">
+						<option value="empty">empty</option>
+						<?php displayRecords(); ?>
+					</select><span style="color: #FF0000;">*</span><br/>
+			<label for="file">Filename:</label>
+			<input type="file" name="file" id="file"><span style="color: #FF0000;">*</span><br/>
+			<input type="submit" name="uploadImage" value="Upload Image">
+			</form>
+		</div>
+	</article>	
 </body>
 </html>
