@@ -5,6 +5,7 @@
 		<p>
 		<?php
 			include('./inc/Date.php');
+			include('./inc/Sort.php');
 		?>
 		From: 
 		<?php
@@ -13,6 +14,12 @@
 		To: 
 		<?php
 			echo date_picker('End_');
+		?>
+		</p>
+		<p>
+		Ordering:
+		<?php
+			echo sort_picker('Sort_');
 		?>
 		</p>
 		<input type="submit" name="validate" value="Find"/>
