@@ -27,31 +27,46 @@ function generateImageID() {
 	}
 }
 
-function buildQuery($image) {
+function buildQuery() {
 	$imageID = generateImageID();
 	$conn = connect();
 	if (!$conn) {
    		$e = oci_error();
    		trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
-   	} 
-			
+   	}
+	
+
+		
+	$imageData = file_get_contents($_FILES["file"]["tmp_name"]);
+	//echo var_dump($imageData);
+	$encoded_image = base64_encode($imageData);
+	//echo "ENCODED IMAGE: " . $encoded_image; 
+		
 	$sql = "INSERT INTO pacs_images (record_id, image_id, regular_size) VALUES (" . 
-		$_POST['record_id'] . ', ' . $imageID . ', \'' . $image . '\'';
+		$_POST['record_id'] . ', ' . $imageID . ', \'' . addslashes($imageData) . '\')';
 	$stid = oci_parse($conn, $sql);
 	$res = oci_execute($stid);
 
 	if (!$res) {
+		$err = oci_error($stid);
+		//print_r($err);
+		echo htmlentities($err['message']);
+		echo "error";
+		//echo $sql;
 		$_SESSION['err'] = True;
 		$_SESSION['err_msg'] = "Failed to add image";
+	} else {
+		echo "worked";
 	} 
+	echo $sql;
 	oci_close();
 	
-	header('Location: ../UploadPage.php');
-	exit(1);
-
+	//header('Location: ../UploadPage.php');
+	//exit(1);
+	
 }
 
-$allowedExts = array("gif", "jpeg", "jpg", "png");
+/*$allowedExts = array("gif", "jpeg", "jpg", "png", "txt");
 $temp = explode(".", $_FILES["file"]["name"]);
 $extension = end($temp);
 
@@ -63,7 +78,7 @@ if ((($_FILES["file"]["type"] == "image/gif")
 	|| ($_FILES["file"]["type"] == "image/png"))
 	&& ($_FILES["file"]["size"] < 20000)
 	&& in_array($extension, $allowedExts)) {
-	
+*/	
 	if ($_FILES["file"]["error"] > 0) {
 		echo "Error: " . $_FILES["file"]["error"] . "<br/>";
 	} else {
@@ -71,10 +86,11 @@ if ((($_FILES["file"]["type"] == "image/gif")
 		echo 'Size: ' . $_FILES['file']['size'] . '<br/>';
 		echo 'Type: ' . $_FILES['file']['type'] . '<br/>';
 		echo 'Temporary Storage: ' . $_FILES['file']['tmp_name'] . '<br/>';
-		$image = addslashes(file_get_contents($_FILES['file']['tmp_name']));
-		buildQuery($image);
+		//$image = addslashes(file_get_contents($_FILES['file']['tmp_name']));
+		buildQuery();
+		//echo "FILEGETCONTENT: " . file_get_contents($_FILES['file']['tmp_name']);
 	}	
-}
+//}
 ?>
 </body>
 </html>
