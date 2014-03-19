@@ -18,3 +18,6 @@ WHERE contains(patient_name, 'Tyler', 1) > 0;
 
 SELECT r.record_id, p.full_name, d.full_name as doctor_name, r.full_name as radiologist_name, r.test_type, r.prescribing_date, r.test_date, r.diagnosis, r.description FROM radiology_record r, persons p, persons d, persons r WHERE r.patient_id = p.person_id AND r.doctor_id = d.person_id AND r.radiologist_id = r.person_id AND( (contains(p.first_name, 'random', 1) > 0) OR (contains(p.last_name, 'random', 2) > 0) OR (contains(r.diagnosis, 'random', 3) > 0) OR (contains(r.description, 'random',4 ) > 0));
 */
+
+select * from users u, persons p where u.person_id = p.person_id;
+

@@ -1,6 +1,6 @@
 <div class="form">
 	<h2>Please Enter Your Report Criteria</h2>
-	<form name="report" method="post" action="./ReportGeneratingModule.php">
+	<form name="report" method="post" action="./ReportGenerator.php">
 		Diagnosis: <input type="text" name="diagnosis"/><br/>
 		<p>
 		<?php

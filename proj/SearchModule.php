@@ -24,7 +24,8 @@ function searchDataAdmin($keywords, $start, $end, $order){
 	
 	$sql.= setupOrder($order);
 	
-	echo $sql;
+	if($sql != 'none'){
+	//echo $sql;
 	$conn = connect();
 		if (!$conn) {
    			$e = oci_error();
@@ -37,6 +38,115 @@ function searchDataAdmin($keywords, $start, $end, $order){
 	$res = oci_execute($stid);
 	drawTable($stid);
 	oci_close($conn);
+	}
+}
+function searchDataDoctor($keywords, $start, $end, $order, $userID){
+
+	include('./inc/PHPconnectionDB.php');
+	$kFlag = true;
+	$dFlag = true;
+	
+	if(empty($keywords)){
+		$kFlag=false;
+	}
+	
+	if(!is_numeric($start) || !is_numeric($end)){
+		$dFlag = false;
+	}
+	//Setup the right search	
+	$sql = setupSearch($kFlag, $dFlag, $keywords, $start, $end);
+	
+	$sql.= ' AND r.doctor_id = '.$userID;
+	
+	$sql.= setupOrder($order);
+	
+	if($sql != 'none'){
+	//echo $sql;
+	$conn = connect();
+		if (!$conn) {
+   			$e = oci_error();
+   			trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
+    		} 
+    		
+    	//Parse the sql
+	$stid = oci_parse($conn, $sql);
+	//Execute
+	$res = oci_execute($stid);
+	drawTable($stid);
+	oci_close($conn);
+	}
+}
+function searchDataPatient($keywords, $start, $end, $order, $userID){
+
+	include('./inc/PHPconnectionDB.php');
+	$kFlag = true;
+	$dFlag = true;
+	
+	if(empty($keywords)){
+		$kFlag=false;
+	}
+	
+	if(!is_numeric($start) || !is_numeric($end)){
+		$dFlag = false;
+	}
+	//Setup the right search	
+	$sql = setupSearch($kFlag, $dFlag, $keywords, $start, $end);
+	
+	$sql.= ' AND r.patient_id = '.$userID;
+	
+	$sql.= setupOrder($order);
+	
+	if($sql != 'none'){
+	//echo $sql;
+	$conn = connect();
+		if (!$conn) {
+   			$e = oci_error();
+   			trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
+    		} 
+    		
+    	//Parse the sql
+	$stid = oci_parse($conn, $sql);
+	//Execute
+	$res = oci_execute($stid);
+	drawTable($stid);
+	oci_close($conn);
+	}
+}
+function searchDataRadiologist($keywords, $start, $end, $order, $userID){
+
+	include('./inc/PHPconnectionDB.php');
+	$kFlag = true;
+	$dFlag = true;
+	
+	if(empty($keywords)){
+		$kFlag=false;
+	}
+	
+	if(!is_numeric($start) || !is_numeric($end)){
+		$dFlag = false;
+	}
+	//Setup the right search	
+	$sql = setupSearch($kFlag, $dFlag, $keywords, $start, $end);
+	
+	$sql.= ' AND r.radiologist_id = '.$userID;
+	
+	$sql.= setupOrder($order);
+	
+	if($sql != 'none'){
+	//echo $sql;
+	$conn = connect();
+		if (!$conn) {
+   			$e = oci_error();
+   			trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
+    		} 
+    		
+    	//Parse the sql
+	$stid = oci_parse($conn, $sql);
+	//Execute
+	$res = oci_execute($stid);
+	drawTable($stid);
+	oci_close($conn);
+	}
 }
 /**
 * Sets up the search query based on user input
@@ -53,7 +163,8 @@ function setupSearch($kFlag, $dFlag, $keywords, $start, $end){
 		//echo '<p> Dates </p>';
 		$sql = select(). dates($start, $end);
 	}else{
-		$sql = select();
+		//$sql = select();
+		$sql = 'none';
 	}
 	
 	return $sql;
