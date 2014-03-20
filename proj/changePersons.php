@@ -52,10 +52,11 @@
  */		
  			$_SESSION['ump_ERR'] = FALSE;
  			$_SESSION['ump_ERRMSG'] = "";
-			
-			$sql = "UPDATE persons SET "	;	
+		
 			validateform();
+			
 			if($_SESSION['ump_ERR'] == FALSE) {
+				$sql = "UPDATE persons SET "	;
 				if(!(empty($_POST['newFirstName']))) {
 					$sql .= "first_name ='" . $_POST['newFirstName'] . "', ";
 				}
@@ -83,29 +84,34 @@
 			}
 			header( 'Location: ./um_persons.php' );
 		} else {	
-
-			$sqlid = "SELECT max(person_id) as MID FROM persons";
-			$parseid = oci_parse($conn, $sqlid);
-			oci_execute($parseid);	
-			oci_fetch($parseid);
-			$maxid = oci_result($parseid, 'MID');
-			$nextid = $maxid + 1;
-			
-			$sql = "INSERT into persons(person_id, first_name, last_name, address, email, phone)" .
-				"VALUES (" . $nextid .
-				",'" . $_POST['newFirstName'] .
-				"','" . $_POST['newLastName'] .
-				"','" . $_POST['newAddress'] .
-				"','" . $_POST['newEmail'] .
-				"','" . $_POST['newPhone'] . "')";
-			$stid = oci_parse($conn, $sql);
-			$res = oci_execute($stid);
-			if (!$res) {
-				$e = oci_error($stid);
-				trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
-			}
-		 	header( 'Location: ./um_persons.php' );
-	    }
+ 			$_SESSION['ump_ERR'] = FALSE;
+ 			$_SESSION['ump_ERRMSG'] = "";
+				
+			validateform();
+			if($_SESSION['ump_ERR'] == FALSE) {
+				$sqlid = "SELECT max(person_id) as MID FROM persons";
+				$parseid = oci_parse($conn, $sqlid);
+				oci_execute($parseid);	
+				oci_fetch($parseid);
+				$maxid = oci_result($parseid, 'MID');
+				$nextid = $maxid + 1;
+				
+				$sql = "INSERT into persons(person_id, first_name, last_name, address, email, phone)" .
+					"VALUES (" . $nextid .
+					",'" . $_POST['newFirstName'] .
+					"','" . $_POST['newLastName'] .
+					"','" . $_POST['newAddress'] .
+					"','" . $_POST['newEmail'] .
+					"','" . $_POST['newPhone'] . "')";
+				$stid = oci_parse($conn, $sql);
+				$res = oci_execute($stid);
+				if (!$res) {
+					$e = oci_error($stid);
+					trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
+				}
+	    	}
+	    	header( 'Location: ./um_persons.php' );
+		}	
 	}
 ?>
 </BODY>
