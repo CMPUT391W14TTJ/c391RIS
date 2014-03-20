@@ -14,12 +14,12 @@
 	<!--Do an assert here to ensure that the person logged in is an Admin -->
 	<article class="navigation">
 		<nav>
-			<li><a href="./um_user.php" title="um_Users">Users</a/></li>
+			<li><a href="./um_users.php" title="um_Users">Users</a/></li>
 			<li><a href="./um_persons.php" title="um_Persons">Persons</a/></li>
 			<li><a href="./um_familyDoctor.php" title="um_familyDoctor">Family Doctor</a/></li>
 		</nav>
 	</article>
-		<form name="changepersons" method="post" action="changePersons.php">
+		<form name="changeusers" method="post" action="changeUsers.php">
 			<h2> Enter The User ID</h2>
 			Person ID: <input type="text" name="oldPersonID"/><br/>
 			<h2> Enter new user's information </h2>
@@ -27,7 +27,7 @@
 			Password: <input type="text" name="newPassword"/><br/>
 			Class: <input type="text" name="newClass"/><br/>
 			Date Registered: <input type="date" name="newDateRegistered"/><br/>
-			<input type="submit" name="ChangePersons" value="Commit Changes"/>
+			<input type="submit" name="ChangeUsers" value="Commit Changes"/>
 		</form>
 		<p style="color:red;">
 			<?php
