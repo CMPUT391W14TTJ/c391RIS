@@ -72,5 +72,25 @@
 			</form>
 		</div>
 	</article>	
+	<p style="color:red;">
+	<?php
+		if (isset($_SESSION['img_err'])) {
+			if ($_SESSION['img_err'] == True) {
+				echo $_SESSION['err_msg'];
+			}
+			$_SESSION['img_err'] = False;
+		}
+	?>
+	</p>
+	<p style="color:green;">
+	<?php
+		if (isset($_SESSION['img_suc'])) {
+			if ($_SESSION['img_suc'] == True) {
+				echo $_SESSION['suc_msg'];
+			}
+			$_SESSION['img_suc'] = False;
+		}
+	?>	
+	</p>
 </body>
 </html>
