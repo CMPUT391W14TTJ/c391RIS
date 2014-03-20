@@ -35,9 +35,25 @@ function buildQuery() {
    		trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
    	}
 	
-
+	$lob = oci_new_descriptor($conn, OCI_D_LOB);
+	$stmt = oci_parse($conn, 'insert into pacs_images (record_id, image_id, regular_size) '
+		. 'values(:recordid, :imageid, empty_blob()) returning regular_size into :blobdata');
+	oci_bind_by_name($stmt, ':recordid', $_POST['record_id']);
+	oci_bind_by_name($stmt, ':imageid', $imageID);
+	oci_bind_by_name($stmt, ':blobdata', $lob, -1, OCI_B_BLOB);
+	oci_execute($stmt, OCI_DEFAULT);
+	if ($lob->savefile($_FILES['file']['tmp_name'])) {
+		oci_commit($conn);
+		echo "BLOB uploaded";
+	} else {
 		
-	$imageData = file_get_contents($_FILES["file"]["tmp_name"]);
+		echo "Coudln't upload BLOB\n";
+	}
+
+	$lob->free(); 
+	
+		
+/*	$imageData = file_get_contents($_FILES["file"]["tmp_name"]);
 	//echo var_dump($imageData);
 	$encoded_image = base64_encode($imageData);
 	//echo "ENCODED IMAGE: " . $encoded_image; 
@@ -59,7 +75,7 @@ function buildQuery() {
 		echo "worked";
 	} 
 	echo $sql;
-	oci_close();
+*/	oci_close();
 	
 	//header('Location: ../UploadPage.php');
 	//exit(1);
