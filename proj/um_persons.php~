@@ -8,6 +8,7 @@
 <body>	
 	<?php
 		include('./inc/navigation.php');
+		session_start();
 	?>
 	<h1>Select A Different Table To Edit Here</h1>
 	<!--Do an assert here to ensure that the person logged in is an Admin -->
@@ -22,15 +23,24 @@
 		<h2> Enter the old information </h2>
 		Person ID: <input type="text" name="oldPersonID"/><br/>
 		<h2> Enter new user's information </h2>
-		First Name: <input type="text" name="newFirstName"/>
+		First Name: <input type="text" name="newFirstName"/><br/>
 		Last Name: <input type="text" name="newLastName"/><br/>
-		Address: <input type="text" name="newAddress"/>
-		Email: <input type="text" name="newEmail"/>
+		Address: <input type="text" name="newAddress"/><br/>
+		Email: <input type="text" name="newEmail"/><br/>
 		Phone: <input type="text" name="newPhone"/><br/>
 		<input type="submit" name="ChangePersons" value="Commit Changes"/>
 	</form>
+	<p style="color:red;">
+		<?php
+			if (isset($_SESSION['ump_ERR'])) {
+				if ($_SESSION['ump_ERR'] == True) {
+					echo $_SESSION['ump_ERRMSG'];
+				}
+				$_SESSION['ump_ERR'] = False;
+			}
+		?>
+	</p>
 	<?php	
-		session_start();
 		$conn = connect();
 		if (!$conn) {
 			$e = oci_error();
