@@ -6,6 +6,7 @@
 <?php
 session_start();
 include('../inc/PHPconnectionDB.php');
+include('./smart_resize_image.function.php');
 
 function generateImageID() {
 	$id = rand(0, 1000);
@@ -28,41 +29,15 @@ function generateImageID() {
 }
 
 function createThumbnail() {
-	$thumbnail = resizeImage($_FILES['file']['tmp_name'], 100, 100);
-	return $thumbnail;
+	$resizedThumbnail = '/tmp/newthumbnail.jpg';
+	unlink($resizedFile);
+
+	smart_resize_image($_FILES['file']['tmp_name'], 100, 100, false, $resizedThumbnail, false, false, 100);
+	
+	return $resizedThumbnail;
 }
 
 function createLargeSize() {
-}
-
-function resizeImage($file, $w, $h, $crop=FALSE) {
-	list($width, $height) = getimagesize($file);
-	$r = $width / $height;
-	if ($crop) {
-		if ($width > $height) {
-			$width = ceil($width - ($width*abs($r-$w/$h)));
-		} else {
-			$height = ceil($height - ($height * abs($r-$w/$h)));
-		}
-		$newwidth = $w;
-		$newheight = $h;
-	} else {
-		if ($w/$h > $r) {
-			$newwidth = $h*$r;
-			$newheight = $h;
-		} else {
-			$newheight = $w/$r;
-			$newwidth = $w;
-		}
-	}
-	/*
-	 * will need to test for file type here
-	 */
-	$src = imagecreatefromjpeg($file);
-	$dst = imagecreatetruecolor($newwidth, $newheight);
-	imagecopyresampled($dst, $src, 0, 0, 0, 0, $newwidth, $newheight, $width, $height);
-	
-	return $dst;
 }
 
 function buildQuery() {
@@ -77,13 +52,14 @@ function buildQuery() {
 	
 	$lob = oci_new_descriptor($conn, OCI_D_LOB);
 	$lob1 = oci_new_descriptor($conn, OCI_D_LOB);
-	$stmt = oci_parse($conn, 'insert into pacs_images (record_id, image_id, regular_size) '
-		. 'values(:recordid, :imageid, empty_blob()) returning regular_size into :blobdata');
+	$stmt = oci_parse($conn, 'insert into pacs_images (record_id, image_id, thumbnail, regular_size) '
+		. 'values(:recordid, :imageid, empty_blob(), empty_blob()) returning thumbnail, regular_size into :thumbdata, :blobdata');
 	oci_bind_by_name($stmt, ':recordid', $_POST['record_id']);
 	oci_bind_by_name($stmt, ':imageid', $imageID);
 	oci_bind_by_name($stmt, ':blobdata', $lob, -1, OCI_B_BLOB);
+	oci_bind_by_name($stmt, ':thumbdata', $lob1, -1, OCI_B_BLOB);
 	oci_execute($stmt, OCI_DEFAULT);
-	if ($lob->savefile($_FILES['file']['tmp_name'])) {
+	if ($lob->savefile($_FILES['file']['tmp_name']) && $lob1->savefile($thumbnail)) {
 		oci_commit($conn);
 		$_SESSION['img_suc'] = True;
 		$_SESSION['suc_msg'] = "Image uploaded";
@@ -93,12 +69,12 @@ function buildQuery() {
 	}
 
 	$lob->free(); 
+	$lob1->free();
 	
 	oci_close();
 	
 	header('Location: ../UploadPage.php');
 	exit(1);
-	
 }
 
 $allowedExts = array("gif", "jpeg", "jpg", "png", "txt");
