@@ -4,9 +4,12 @@
 </head>
 <body>
 <?php
+error_reporting(E_ALL);
+ini_set('error_reporting', E_ALL);
 session_start();
 include('../inc/PHPconnectionDB.php');
 include('./smart_resize_image.function.php');
+
 
 function generateImageID() {
 	$id = rand(0, 1000);
@@ -43,7 +46,7 @@ function createLargeSize() {
 function buildQuery() {
 	$imageID = generateImageID();
 	$thumbnail = createThumbnail();
-
+	
 	$conn = connect();
 	if (!$conn) {
    		$e = oci_error();
@@ -73,6 +76,7 @@ function buildQuery() {
 	
 	oci_close();
 	
+	echo "workdamnit";
 	header('Location: ../UploadPage.php');
 	exit(1);
 }
