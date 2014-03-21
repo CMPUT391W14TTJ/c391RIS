@@ -23,15 +23,7 @@
 	$end_year = $_POST['End_year'];
 	$order = $_POST['Sort_order'];
 
-	if($_SESSION['user']->user_class == 'a'){
-		searchDataAdmin($keywords, $start_month . $start_day . $start_year, $end_month . $end_day . $end_year, $order );
-	}else if($_SESSION['user']->user_class == 'p'){
-		searchDataPatient($keywords, $start_month . $start_day . $start_year, $end_month . $end_day . $end_year, $order, $_SESSION['user']->user_id);
-	}else if($_SESSION['user']->user_class == 'd'){
-		searchDataDoctor($keywords, $start_month . $start_day . $start_year, $end_month . $end_day . $end_year, $order, $_SESSION['user']->user_id);
-	}else if($_SESSION['user']->user_class == 'r'){
-		searchDataRadiologist($keywords, $start_month . $start_day . $start_year, $end_month . $end_day . $end_year, $order, $_SESSION['user']->user_id);
-	}
+	searchDB($keywords, $start_month . $start_day . $start_year, $end_month . $end_day . $end_year, $order, $_SESSION['user']->user_id, $_SESSION['user']->user_class);
 ?>
 </p>
 </html>

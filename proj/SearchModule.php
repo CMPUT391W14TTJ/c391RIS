@@ -1,153 +1,54 @@
-
 <?php 
 /**
-* Executes a serach with no restrictions. For people with admin access ONLY
-* please ensure you have the right credentials before calling this serach.
-* TODO: Have this search double check your session variables to double check
-* security.
+* Executes a serach dependant on userClass.
 */
-function searchDataAdmin($keywords, $start, $end, $order){
+function searchDB($keywords, $start, $end, $order, $userID, $userClass){
 
 	include('./inc/PHPconnectionDB.php');
 	$kFlag = true;
 	$dFlag = true;
-	
+	//Check if we have any keywords
 	if(empty($keywords)){
 		$kFlag=false;
 	}
-	
+	//Check if we have a valid date range
 	if(!is_numeric($start) || !is_numeric($end)){
 		$dFlag = false;
 	}
 	//Setup the right search	
 	$sql = setupSearch($kFlag, $dFlag, $keywords, $start, $end);
 	
-	$sql.= setupOrder($order);
-	
+	//Attach user class restrictions
+	switch($userClass){
+		case "d":
+			$sql.= ' AND r.doctor_id = '.$userID;
+			break;
+		case "p":
+			$sql.= ' AND r.patient_id = '.$userID;
+			break;
+		case "r":
+			$sql.= ' AND r.radiologist_id = '.$userID;
+			break;		
+	}
 	if($sql != 'none'){
-	//echo $sql;
-	$conn = connect();
-		if (!$conn) {
-   			$e = oci_error();
-   			trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
-    		} 
+		//Setup the sort order
+		$sql.= setupOrder($order);
+		//echo $sql;
+		$conn = connect();
+			if (!$conn) {
+   				$e = oci_error();
+   				trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
+    			} 
     		
-    	//Parse the sql
-	$stid = oci_parse($conn, $sql);
-	//Execute
-	$res = oci_execute($stid);
-	drawTable($stid);
-	oci_close($conn);
+    		//Parse the sql
+		$stid = oci_parse($conn, $sql);
+		//Execute
+		$res = oci_execute($stid);
+		drawTable($stid);
+		oci_close($conn);
 	}
 }
-function searchDataDoctor($keywords, $start, $end, $order, $userID){
 
-	include('./inc/PHPconnectionDB.php');
-	$kFlag = true;
-	$dFlag = true;
-	
-	if(empty($keywords)){
-		$kFlag=false;
-	}
-	
-	if(!is_numeric($start) || !is_numeric($end)){
-		$dFlag = false;
-	}
-	//Setup the right search	
-	$sql = setupSearch($kFlag, $dFlag, $keywords, $start, $end);
-	
-	$sql.= ' AND r.doctor_id = '.$userID;
-	
-	$sql.= setupOrder($order);
-	
-	if($sql != 'none'){
-	//echo $sql;
-	$conn = connect();
-		if (!$conn) {
-   			$e = oci_error();
-   			trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
-    		} 
-    		
-    	//Parse the sql
-	$stid = oci_parse($conn, $sql);
-	//Execute
-	$res = oci_execute($stid);
-	drawTable($stid);
-	oci_close($conn);
-	}
-}
-function searchDataPatient($keywords, $start, $end, $order, $userID){
-
-	include('./inc/PHPconnectionDB.php');
-	$kFlag = true;
-	$dFlag = true;
-	
-	if(empty($keywords)){
-		$kFlag=false;
-	}
-	
-	if(!is_numeric($start) || !is_numeric($end)){
-		$dFlag = false;
-	}
-	//Setup the right search	
-	$sql = setupSearch($kFlag, $dFlag, $keywords, $start, $end);
-	
-	$sql.= ' AND r.patient_id = '.$userID;
-	
-	$sql.= setupOrder($order);
-	
-	if($sql != 'none'){
-	//echo $sql;
-	$conn = connect();
-		if (!$conn) {
-   			$e = oci_error();
-   			trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
-    		} 
-    		
-    	//Parse the sql
-	$stid = oci_parse($conn, $sql);
-	//Execute
-	$res = oci_execute($stid);
-	drawTable($stid);
-	oci_close($conn);
-	}
-}
-function searchDataRadiologist($keywords, $start, $end, $order, $userID){
-
-	include('./inc/PHPconnectionDB.php');
-	$kFlag = true;
-	$dFlag = true;
-	
-	if(empty($keywords)){
-		$kFlag=false;
-	}
-	
-	if(!is_numeric($start) || !is_numeric($end)){
-		$dFlag = false;
-	}
-	//Setup the right search	
-	$sql = setupSearch($kFlag, $dFlag, $keywords, $start, $end);
-	
-	$sql.= ' AND r.radiologist_id = '.$userID;
-	
-	$sql.= setupOrder($order);
-	
-	if($sql != 'none'){
-	//echo $sql;
-	$conn = connect();
-		if (!$conn) {
-   			$e = oci_error();
-   			trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
-    		} 
-    		
-    	//Parse the sql
-	$stid = oci_parse($conn, $sql);
-	//Execute
-	$res = oci_execute($stid);
-	drawTable($stid);
-	oci_close($conn);
-	}
-}
 /**
 * Sets up the search query based on user input
 */
@@ -169,12 +70,11 @@ function setupSearch($kFlag, $dFlag, $keywords, $start, $end){
 	
 	return $sql;
 }
-
 /**
 * Applies the correct order to the rows
 */
 function setupOrder($order){
-
+	
 	if($order == 'Date ASC'){
 		return dateAscending();
 	}else if($order == 'Date DESC'){
@@ -269,4 +169,3 @@ function drawTable($stid){
 	echo '</table>';
 }
 ?> 
-
