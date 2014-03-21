@@ -85,6 +85,13 @@ $allowedExts = array("gif", "jpeg", "jpg", "png", "txt");
 $temp = explode(".", $_FILES["file"]["name"]);
 $extension = end($temp);
 
+if (isset($_FILES['file']['name'])) {
+	$_SESSION['img_err'] = True;
+	$_SESSION['err_msg'] = "Invalid file chosen.";
+	header('Location: ../UploadPage.php');
+	exit(1);
+}
+
 if ((($_FILES["file"]["type"] == "image/gif")
 	|| ($_FILES["file"]["type"] == "image/jpeg")
 	|| ($_FILES["file"]["type"] == "image/jpg")
@@ -99,6 +106,12 @@ if ((($_FILES["file"]["type"] == "image/gif")
 	} else {
 		buildQuery();
 	}	
+} else {
+	$_SESSION['img_err'] = True;
+	$_SESSION['err_msg'] = "File must be of format: gif, jpeg, jpg, pjpeg, " .
+		"x-png, or png";
+	header('Location: ../UploadPage.php');
+	exit(1);
 }
 ?>
 </body>
