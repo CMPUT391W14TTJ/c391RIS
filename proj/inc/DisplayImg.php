@@ -15,13 +15,13 @@
 		$stmt = oci_parse($con, $query);
 		oci_execute($stmt);
 		if ($arr = oci_fetch_array($stmt, OCI_ASSOC)) {	
-			$result = $arr['THUMBNAIL']->load();
+			$result = $arr[strtoupper($imageType)]->load();
 			$imgSize = getImageSize($result);
 
-			echo '<a href="ImageViewer.php?id=' . $imageID . '"><img src="data:image/jpeg;base64,'.
+			echo '<img src="data:image/jpeg;base64,'.
       			base64_encode($result).
       			'" width="'. $imgSize[0] . '" height="'. $imgSize[1] . 
-				'"></a>';
+				'">';
 		} else {
 			echo "didn't work";
 		}

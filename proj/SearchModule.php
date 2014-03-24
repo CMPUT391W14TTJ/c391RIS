@@ -172,9 +172,9 @@ function drawTable($stid){
 		$imageIDs = retrieveImgIds($recordID);
 		echo "<tr><th>Images</th>";
 		for ($i = 0; $i < count($imageIDs) ;$i++) {
-			echo "<td>";
+			echo '<td><a href="ImageViewer.php?id=' . $imageIDs[$i] . '">';
 			displayImg($imageIDs[$i], "thumbnail");	
-			echo "</td>";
+			echo "</a></td>";
 		}
 		echo "</tr>";
 	}
