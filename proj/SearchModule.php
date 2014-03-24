@@ -5,6 +5,8 @@
 function searchDB($keywords, $start, $end, $order, $userID, $userClass){
 
 	include('./inc/PHPconnectionDB.php');
+	include('./inc/RetrieveImgIds.php');
+	include('./inc/DisplayImg.php');
 	$kFlag = true;
 	$dFlag = true;
 	//Check if we have any keywords
@@ -159,12 +161,22 @@ function drawTable($stid){
 		</tr>';
 	while(($row = oci_fetch_array($stid, OCI_ASSOC))) {
 		echo '<tr>';
+		$recordID = $row['RECORD_ID'];
 		foreach($row as $item){
 			echo '<td>';
 			echo $item;
 			echo '</td>';
 		}
 		echo '</tr>';
+		
+		$imageIDs = retrieveImgIds($recordID);
+		echo "<tr><th>Images</th>";
+		for ($i = 0; $i < count($imageIDs) ;$i++) {
+			echo "<td>";
+			displayImg($imageIDs[$i], "thumbnail");	
+			echo "</td>";
+		}
+		echo "</tr>";
 	}
 	echo '</table>';
 }

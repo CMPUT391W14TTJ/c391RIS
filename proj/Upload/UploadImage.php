@@ -76,7 +76,6 @@ function buildQuery() {
 	
 	oci_close();
 	
-	echo "workdamnit";
 	header('Location: ../UploadPage.php');
 	exit(1);
 }
@@ -85,7 +84,7 @@ $allowedExts = array("gif", "jpeg", "jpg", "png", "txt");
 $temp = explode(".", $_FILES["file"]["name"]);
 $extension = end($temp);
 
-if (isset($_FILES['file']['name'])) {
+if (!isset($_FILES['file']['name'])) {
 	$_SESSION['img_err'] = True;
 	$_SESSION['err_msg'] = "Invalid file chosen.";
 	header('Location: ../UploadPage.php');
