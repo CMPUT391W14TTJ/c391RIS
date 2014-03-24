@@ -35,8 +35,9 @@
 	</article>
 		<form name="insertUser" method="post" action="changeUsers.php">
 			<h2> Insert a New User</h2>
+			Person ID:
 			<?php
-				echo "<select name='insertUserSelect'><option value='SELECT'>---SELECT ID From Persons---</option>";				
+				echo "<select name='iNewPersonID'><option value=''>---SELECT ID From Persons---</option>";				
 				while($pid = oci_fetch_array($parsepids)) {
 					echo "<option value=" . $pid['PERSON_ID'] . ">" . $pid['PERSON_ID'] . "</option>";
 				}
@@ -44,7 +45,12 @@
 			?>
 			New User Name: <input type="text" name="iNewUserName"/><br/>
 			Password: <input type="text" name="iNewPassword"/><br/>
-			Class: <input type="text" name="iNewClass"/><br/>
+			Class: <select name='iNewClass'><option value=''>---SELECT Class---</option>";				
+				<option value='p'> Patient </option>
+				<option value='d'> Doctor </option>
+				<option value='r'> Radiologist </option>
+				<option value='a'> Admin </option>
+				</select><br/>
 			Date Registered: <input type="date" name="iNewDateRegistered"/><br/>
 			<input type="submit" name="InsertUsers" value="Insert User"/>
 		</form>
@@ -60,8 +66,9 @@
 		</p>
 		<form name="updateUser" method="post" action="changeUsers.php">
 			<h2> Update An Existing User</h2>
+			Old Username (from Table):
 			<?php
-				echo "<select name='updateUserSelect'><option value=''>---SELECT User Name---</option>";				
+				echo "<select name='uOldUserName'><option value=''>---SELECT User Name---</option>";				
 				while($uid = oci_fetch_array($parseuids)) {
 					echo "<option value='" . $uid['USER_NAME'] . "'>". $uid['USER_NAME']."</option>";
 				}
@@ -69,10 +76,16 @@
 			?>
 			New User Name: <input type="text" name="uNewUserName"/><br/>
 			Password: <input type="text" name="uNewPassword"/><br/>
-			Class: <input type="text" name="uNewClass"/><br/>
+			Class: <select name='uNewClass'><option value=''>---SELECT Class---</option>";				
+					<option value='p'> Patient </option>
+					<option value='d'> Doctor </option>
+					<option value='r'> Radiologist </option>
+					<option value='a'> Admin </option>
+					</select><br/>
+			Person ID:
 			<?php
 				oci_execute($parsepids);
-				echo "<select name='updatePersonIDSelect'><option value='SELECT'>---SELECT New ID---</option>";				
+				echo "<select name='uNewPersonID'><option value=''>---SELECT New ID---</option>";				
 				while($pid = oci_fetch_array($parsepids)) {
 					echo "<option value=" . $pid['PERSON_ID'] . ">" . $pid['PERSON_ID'] . "</option>";
 				}
