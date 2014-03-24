@@ -2,8 +2,8 @@
 	<h2>Please Enter Your Data Analysis Criteria</h2>
 	<form name="report" method="post" action="./DataAnalysis.php">
 		<p>
-		<input type="checkbox" name="vehicle" value="Bike">Patient name<br>
-		<input type="checkbox" name="vehicle" value="Car">Test Type<br>
+		<input type="checkbox" name="patient" value="true">Patient name<br>
+		<input type="checkbox" name="test" value="true">Test Type<br>
 		<?php
 			include('./inc/Time.php');
 		?>
