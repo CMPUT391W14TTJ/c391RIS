@@ -4,89 +4,111 @@
 </HEAD>
 <BODY>
 <?php
-	function validateid($con, $id) {
-		$sqlid = "SELECT person_id as MID FROM persons";
-		$parseid = oci_parse($con, $sqlid);
-		oci_execute($parseid);
-		$allpids = oci_fetch_all($parseid);
-		if(!(in_array($id, $allpids))) {
-			$_SESSION['umu_ERR'] = TRUE;
-			$_SESSION['umu_ERRMSG'] .= "Person ID does not exist in Persons\n";
-		}
-	}
-
-	function validateform($con) {
-			if(!(empty($_POST['oldPersonID']))) {
-				$sqlid = "SELECT max(person_id) as MID FROM users";
-				$parseid = oci_parse($con, $sqlid);
-				oci_execute($parseid);	
-				oci_fetch($parseid);
-				$maxid = oci_result($parseid, 'MID');
-				if($_POST['oldPersonID']>$maxid) {
-					$_SESSION['umu_ERR'] = TRUE;
-					$_SESSION['umu_ERRMSG'] .= "You entered an invalid Person ID \n";
+	function validateinsert() {
+					if(!(empty($_POST['iNewUserName']))) {
+				if(strlen($_POST['iNewUserName'])>24) {
+					$_SESSION['umu_insERR'] = TRUE;
+					$_SESSION['umu_insERRMSG'] .= "First name must be less than 24 characters \n";
 				}
 			}
-			if(!(empty($_POST['newUserName']))) {
-				if(strlen($_POST['newUserName'])>24) {
-					$_SESSION['umu_ERR'] = TRUE;
-					$_SESSION['umu_ERRMSG'] .= "First name must be less than 24 characters \n";
-				}
-			}
-			if(!(empty($_POST['newPassword']))) {
-				if(strlen($_POST['newPassword'])>24) {
-					$_SESSION['umu_ERR'] = TRUE;
-					$_SESSION['umu_ERRMSG'] .= "Last name must be less than 24 characters \n";
+			if(!(empty($_POST['iNewPassword']))) {
+				if(strlen($_POST['iNewPassword'])>24) {
+					$_SESSION['umu_insERR'] = TRUE;
+					$_SESSION['umu_insERRMSG'] .= "Last name must be less than 24 characters \n";
 				}
 			}			
-			if(!(empty($_POST['newClass']))) {
-				if(strlen($_POST['newClass'])>128) {
-					$_SESSION['umu_ERR'] = TRUE;
-					$_SESSION['umu_ERRMSG'] .= "Address must be less than 128 characters \n";
+			if(!(empty($_POST['iNewClass']))) {
+				if(strlen($_POST['iNewClass'])>128) {
+					$_SESSION['umu_insERR'] = TRUE;
+					$_SESSION['umu_insERRMSG'] .= "Address must be less than 128 characters \n";
 				}
 			}
-			if(!(empty($_POST['newDateRegistered']))) {
-				if(strlen($_POST['newDateRegistered'])>128) {
-					$_SESSION['umu_ERR'] = TRUE;
-					$_SESSION['umu_ERRMSG'] .= "Email must be less than 128 characters \n";
+			if(!(empty($_POST['iNewDateRegistered']))) {
+				if(strlen($_POST['iNewDateRegistered'])>128) {
+					$_SESSION['umu_insERR'] = TRUE;
+					$_SESSION['umu_insERRMSG'] .= "Email must be less than 128 characters \n";
 				}
 			}
 	}
+		function validateinsert() {
+					if(!(empty($_POST['uNewUserName']))) {
+				if(strlen($_POST['uNewUserName'])>24) {
+					$_SESSION['umu_updERR'] = TRUE;
+					$_SESSION['umu_updERRMSG'] .= "First name must be less than 24 characters \n";
+				}
+			}
+			if(!(empty($_POST['uNewPassword']))) {
+				if(strlen($_POST['unewPassword'])>24) {
+					$_SESSION['umu_updERR'] = TRUE;
+					$_SESSION['umu_updERRMSG'] .= "Last name must be less than 24 characters \n";
+				}
+			}			
+			if(!(empty($_POST['uNewClass']))) {
+				if(strlen($_POST['uNewClass'])>128) {
+					$_SESSION['umu_updERR'] = TRUE;
+					$_SESSION['umu_updERRMSG'] .= "Address must be less than 128 characters \n";
+				}
+			}
+			if(!(empty($_POST['uNewDateRegistered']))) {
+				if(strlen($_POST['uNewDateRegistered'])>128) {
+					$_SESSION['umu_updERR'] = TRUE;
+					$_SESSION['umu_updERRMSG'] .= "Email must be less than 128 characters \n";
+				}
+			}
+	}
+
 
 	session_start();
 	include('./inc/PHPconnectionDB.php');
 	$conn = connect();
 	if (!$conn) {
-   		$e = oci_error();
-   		trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
-  	}
-	if (isset($_POST['ChangeUsers'])) {
-		if(!(empty($_POST['oldPersonID']))) {			
-/*
- * generate the sql query for update based on given information
- */		
- 			$_SESSION['umu_ERR'] = FALSE;
- 			$_SESSION['umu_ERRMSG'] = "";
-		
-			validateform($conn);
-			
-			if($_SESSION['umu_ERR'] == FALSE) {
+		$e = oci_error();
+   	trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
+	$_SESSION['umu_insERR'] = FALSE;
+   $_SESSION['umu_insERRMSG'] = "";
+   if(isset($_POST['InsertUsers')) {
+   	validateinsert();
+   	if($_SESSION['umu_insERR' == FALSE) {
+   		$sql = "INSERT INTO users('user_name', 'password', 'class', 'person_id', 'date_registered')" .
+   			"VALUES ('" . $_POST['iNewUserName'] . "'" .
+   			$_POST['iNewPassword'] . "'" .
+   			"'" . $_POST['iNewClass'] . "'" .
+   			$_POST['insertUserSelect'] .
+   			"'" . $_POST['iNewDateRegistered'] . "')";
+			$stid = oci_parse($conn, $sql);
+			$res = oci_execute($stid);
+			if (!$res) {
+			$e = oci_error($stid);
+				trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
+			}
+	   }
+	   header( 'Location: ./um_users.php' );
+	 } else {
+	 	if(isset($_POST['UpdateUsers'])) {		
+			validateupdate();
+			$_SESSION['umu_updERR'] = FALSE;
+   		$_SESSION['umu_updERRMSG'] = "";
+   		
+			if($_SESSION['umu_updERR'] == FALSE) {
 				$sql = "UPDATE users SET "	;
-				if(!(empty($_POST['newUserName']))) {
-					$sql .= "user_name ='" . $_POST['newUserName'] . "', ";
+				if(!(empty($_POST['uNewUserName']))) {
+					$sql .= "user_name ='" . $_POST['uNewUserName'] . "', ";
 				}
-				if(!(empty($_POST['newPassword']))) {
-					$sql .= "password ='" . $_POST['newPassword'] . "', ";
+				if(!(empty($_POST['uNewPassword']))) {
+					$sql .= "password ='" . $_POST['uNewPassword'] . "', ";
 				}			
-				if(!(empty($_POST['newClass']))) {
-					$sql .= "class = '" . $_POST['newClass'] . "', ";
+				if(!(empty($_POST['uNewClass']))) {
+					$sql .= "class = '" . $_POST['uNewClass'] . "', ";
 				}
-				if(!(empty($_POST['newDateRegistered']))) {
-					$sql .= "date_registered = '" . $_POST['newDateRegistered'] . "', ";
+				if($_POST['updatePersonIDSelect'] != "---SELECT New ID---") {
+					$sql .= "person_id = '" . $_POST['updatePersonIDSelect'] . "', ";
+				}
+				if(!(empty($_POST['uNewDateRegistered']))) {
+					$sql .= "date_registered = '" . $_POST['uNewDateRegistered'] . "', ";
 				}
 				
 				$sql = substr($sql, 0, -2);
-				$sql .= " WHERE person_id=" . $_POST['oldPersonID'];
+				$sql .= " WHERE user_name=" . $_POST['updateUserSelect'];
 				$stid = oci_parse($conn, $sql);
 				$res = oci_execute($stid);
 				if (!($res)) {
@@ -97,34 +119,6 @@
 			header( 'Location: ./um_users.php' );
 		} else {	
  			$_SESSION['umu_ERR'] = FALSE;
- 			$_SESSION['umu_ERRMSG'] = "";
-			
-			$sqlid = "SELECT max(person_id) as MID FROM users";
-			$parseid = oci_parse($conn, $sqlid);
-			oci_execute($parseid);	
-			oci_fetch($parseid);
-			$maxid = oci_result($parseid, 'MID');
-			$nextid = $maxid + 1;				
-				
-			validateform($conn);
-			validateid($conn, $nextid);
-			if($_SESSION['umu_ERR'] == FALSE) {
-				$sql = "INSERT into users(person_id, user_name, password, class, date_registered)" .
-					"VALUES (" . $nextid .
-					",'" . $_POST['newUserName'] .
-					"','" . $_POST['newPassword'] .
-					"','" . $_POST['newClass'] .
-					"','" . $_POST['newDateRegistered'] . "')";
-				$stid = oci_parse($conn, $sql);
-				$res = oci_execute($stid);
-				if (!$res) {
-					$e = oci_error($stid);
-					trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
-				}
-	    	}
-	    	header( 'Location: ./um_users.php' );
-		}	
-	}
-?>
+ 			$_SESSION['umu_ERRMSG'] = "";		
 </BODY>
 </HTML>
