@@ -1,3 +1,6 @@
+/*The following is some test data for the project*/
+/*May  be some small issues with it but it generally works as a starting point*/
+
 /* Load up the persons table */
 INSERT INTO persons
 (person_id, first_name, last_name, address, email, phone)

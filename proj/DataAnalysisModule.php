@@ -1,14 +1,7 @@
 <?php
 function printData($patient, $test, $time){
 	include('./inc/PHPconnectionDB.php');
-	
-	//$sql = 'SELECT * from facts';
-	//$sql = 'SELECT full_name, test_type, EXTRACT(YEAR from test_date), SUM(num_images) from facts GROUP BY full_name, test_type, EXTRACT(YEAR from test_date)';
-	//$sql = 'SELECT full_name, test_type, to_char(test_date, \'MON\'), SUM(num_images) from facts GROUP BY full_name, test_type, to_char(test_date, \'MON\')';
-	
-	//$sqlPatient = '';
-	//$sqlTest = '';
-	
+	//Build the query
 	$sql = 'SELECT ';
 	$sql.= setupSelect($patient, $test, $time);
 	$sql.= 'from FACTS';
@@ -70,9 +63,12 @@ function setupSelect($patient, $test, $time){
 */
 function setupGroup($patient, $test, $time){
 	$string = '';
+	//Indicates if we have a previous entry so we know we need a
+	// ',' preceeding outselfs.
 	$prevFlag = false;
 	
 	if(empty($patient) && empty($test) && ($time == 'Total')){
+		//No group by needed
 		return $string;
 	}
 	
@@ -122,14 +118,17 @@ function setupGroup($patient, $test, $time){
 * Draws the table and the results out to the screen
 */
 function drawTable($patient, $test, $time,$stid){
-	echo '<table border="1">
-		<tr>';
+	echo '<table border="1"> <tr>';
+
 	if(!empty($patient)){
+		//patient header
 		echo '<th>Patient name</th>';
 	}
 	if(!empty($test)){
+		//Test type header
 		echo '<th>Test Type</th>';
 	}
+	//Lable the proper time header
 	switch($time){
 		case 'Week':
 			echo '<th>Week</th>';
@@ -143,8 +142,9 @@ function drawTable($patient, $test, $time,$stid){
 		case 'Total':
 			break;	
 	}
-	echo 	'<th>Num Images</th>
-		</tr>';
+	//Num Images always exists
+	echo 	'<th>Num Images</th> </tr>';
+	//Output the data
 	while(($row = oci_fetch_array($stid, OCI_ASSOC))) {
 		echo '<tr>';
 		foreach($row as $item){

@@ -4,7 +4,7 @@
 <?php
 	
 	include('./inc/navigation.php');
-	include('./inc/SearchPicker.php');
+	include('./inc/SearchForm.php');
 	include('SearchModule.php');
 	include ('./classes/user.php');
 	

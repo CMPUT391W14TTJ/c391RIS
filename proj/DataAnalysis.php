@@ -4,18 +4,14 @@
 <?php
 	
 	include('./inc/navigation.php');
-	include('./inc/DataPicker.php');
+	include('./inc/DataForm.php');
 	include('DataAnalysisModule.php');
 	
 	//Get the variables we need
 	$patient = $_POST['patient'];
 	$test = $_POST['test'];
 	$time = $_POST['Time_picker'];
-	/*
-	echo '<b>'.$patient.'</b>';
-	echo '<b>'.$test.'</b>';
-	echo '<b>'.$time.'</b>';
-	*/
+	//Prints the data based on the form
 	printData($patient, $test, $time);
 	
 ?>

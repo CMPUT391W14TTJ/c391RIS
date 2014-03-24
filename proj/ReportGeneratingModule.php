@@ -16,13 +16,12 @@ function generateReport($diagnosis, $start_month, $start_day, $start_year, $end_
 		
 	//echo $sql;
 
-		$conn = connect();
-
+	$conn = connect();
 	if (!$conn) {
   			$e = oci_error();
   			trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
    		} 
-		//Parse the sql
+	//Parse the sql
 	$stid = oci_parse($conn, $sql);
 	//Execute
 	$res = oci_execute($stid);
