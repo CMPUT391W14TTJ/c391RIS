@@ -15,7 +15,6 @@
 		<h1>User Info</h1>
 		<p>
 		<?php
-			print_r($_SESSION['user']);	
 			echo "USERNAME: " . $_SESSION['user']->username . '<br/>';
 			echo "PASSWORD: " . $_SESSION['user']->password . '<br/>';
 			echo "USER_ID: " . $_SESSION['user']->user_id . '<br/>';
