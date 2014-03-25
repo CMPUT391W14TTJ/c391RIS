@@ -5,9 +5,9 @@
 <body>
 <div id="container">
 	<?php 
-		include('./inc/navigation.php'); 
 		include('./inc/getInfo.php'); 
 		session_start();
+		include('./inc/navigation.php'); 
 		getUserInfo();
 		getPersonalInfo();
 	?>
