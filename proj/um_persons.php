@@ -9,6 +9,11 @@
 	<?php
 		include('./inc/navigation.php');
 		session_start();
+		$conn = connect();
+		if (!$conn) {
+			$e = oci_error();
+			trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
+		}
 	?>
 	<h1>Select A Different Table To Edit Here</h1>
 	<!--Do an assert here to ensure that the person logged in is an Admin -->
@@ -21,7 +26,17 @@
 	</article>
 	<form name="changepersons" method="post" action="changePersons.php">
 		<h2> Enter the old information </h2>
-		Person ID: <input type="text" name="oldPersonID"/><br/>
+		Person ID:
+		<?php
+			$querypids = "SELECT person_id FROM persons";
+			$parsepids = oci_parse($conn, $querypids);
+			oci_execute($parsepids);
+			echo "<select name='oldPersonID'><option value=''>---SELECT New ID---</option>";				
+			while($pid = oci_fetch_array($parsepids)) {
+				echo "<option value=" . $pid['PERSON_ID'] . ">" . $pid['PERSON_ID'] . "</option>";
+			}
+			echo "</select><br/>";
+		?>
 		<h2> Enter new user's information </h2>
 		First Name: <input type="text" name="newFirstName"/><br/>
 		Last Name: <input type="text" name="newLastName"/><br/>
@@ -40,12 +55,7 @@
 			}
 		?>
 	</p>
-	<?php	
-		$conn = connect();
-		if (!$conn) {
-			$e = oci_error();
-			trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
-		}
+	<?php
 		$stid = oci_parse($conn, 'SELECT * FROM Persons');
 		$result = oci_execute($stid);
 	?>
@@ -61,17 +71,17 @@
 	<?php
 		while ($row = oci_fetch_array($stid, OCI_ASSOC+OCI_RETURN_NULLS)) {
 			echo "<tr>\n";
-			echo "<td>" . $row['PERSON_ID'] . "</td>\n";
-			echo "<td>" . $row['FIRST_NAME'] . "</td>\n";
-			echo "<td>" . $row['LAST_NAME'] . "</td>\n";
-			echo "<td>" . $row['ADDRESS'] . "</td>\n";
-			echo "<td>" . $row['EMAIL'] . "</td>\n";
-			echo "<td>" . $row['PHONE'] . "</td>\n";
+			echo "<td>" . $row['PERSON_ID'] . "</td>";
+			echo "<td>" . $row['FIRST_NAME'] . "</td>";
+			echo "<td>" . $row['LAST_NAME'] . "</td>";
+			echo "<td>" . $row['ADDRESS'] . "</td>";
+			echo "<td>" . $row['EMAIL'] . "</td>";
+			echo "<td>" . $row['PHONE'] . "</td>";
 			echo "</tr>\n";
 		}
 		echo "</table>\n";
 	oci_free_statement($stid);
-	oci_close();	
+	oci_close($conn);	
 ?>
 	
 </body>
