@@ -80,7 +80,7 @@
 			$sql = "SELECT DISTINCT full_name, doctor_id FROM persons, family_doctor WHERE person_id = doctor_id";
 			$stid = oci_parse($conn, $sql);
 			oci_execute($stid);
-			echo "<select name='uNewDocID'><option value=''>---SELECT---</option>";				
+			echo "<select name='uOldDocID'><option value=''>---SELECT---</option>";				
 			while($row = oci_fetch_array($stid)) {
 				echo "<option value=" . $row['DOCTOR_ID'] . ">" . $row['FULL_NAME'] . "</option>";
 			}
@@ -91,7 +91,7 @@
 			$sql = "SELECT DISTINCT full_name, patient_id FROM persons, family_doctor WHERE person_id = patient_id";
 			$stid = oci_parse($conn, $sql);
 			oci_execute($stid);
-			echo "<select name='uNewPatID'><option value=''>---SELECT---</option>";				
+			echo "<select name='uOldPatID'><option value=''>---SELECT---</option>";				
 			while($row = oci_fetch_array($stid)) {
 				echo "<option value=" . $row['PATIENT_ID'] . ">" . $row['FULL_NAME'] . "</option>";
 			}
@@ -104,17 +104,6 @@
 		$stid = oci_parse($conn, $sql);
 		$result = oci_execute($stid);
 	?>
-	<p style="color:blue" >
-		<?php
-		if (isset($_SESSION['umd_updERR'])) {
-			if (isset($_SESSION['umd_updERRMSG'])) {
-				echo $_SESSION['umd_updERRMSG'];
-			}
-			$_SESSION['umd_updERR'] = FALSE;
-			$_SESSION['umd_updERRMSG'] = "";
-		}
-	?>
-	</p>
 	<TABLE BORDER = 1>
 	<TR>
 	<TD colspan="3" align="center">DOCTOR</TD>
@@ -135,7 +124,13 @@
 			echo "<td>" . $row['DLN'] . "</td>";
 			echo "<td>" . $row['PID'] . "</td>";
 			echo "<td>" . $row['PFN'] . "</td>";
-			echo "<td>" . $row['PLN'] . "</td>";	
+			echo "<td>" . $row['PLN'] . "</td>";
+			/*
+			echo "<td>" . $row['ADDRESS'] . "</td>\n";
+			echo "<td>" . $row['EMAIL'] . "</td>\n";
+			echo "<td>" . $row['PHONE'] . "</td>\n";
+			echo "</tr>\n";
+			*/	
 			echo "</tr>";	
 		}
 		echo "</table>\n";
