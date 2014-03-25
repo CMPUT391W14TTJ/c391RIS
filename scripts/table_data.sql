@@ -399,3 +399,5 @@ VALUES
 
 /*Load up the images table*/
 /*Have not figured out how to upload local images as of yet*/
+
+exit;

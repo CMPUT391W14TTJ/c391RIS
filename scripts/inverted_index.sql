@@ -19,3 +19,5 @@ CREATE INDEX person_last_name on persons(last_name)
 INDEXTYPE is CTXSYS.CONTEXT
 parameters ('sync (on commit)');
 
+exit;
+
