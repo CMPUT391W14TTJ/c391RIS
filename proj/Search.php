@@ -4,7 +4,7 @@
 <?php
 	
 	include('./inc/navigation.php');
-	include('./inc/SearchPicker.php');
+	include('./inc/SearchForm.php');
 	include('SearchModule.php');
 	include ('./classes/user.php');
 	
@@ -14,7 +14,6 @@
 	$keywords = $_POST['Keywords'];
 	$replaces = array(" ", ",");
 	$keywords = str_replace($replaces, ",", $keywords);
-	//Get the variables we need
 	$start_month = sprintf("%02s", $_POST['Start_month']);
 	$start_day = sprintf("%02s", $_POST['Start_day']);
 	$start_year = $_POST['Start_year'];

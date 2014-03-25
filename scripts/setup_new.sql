@@ -24,9 +24,6 @@ CREATE TABLE persons (
    UNIQUE (email)
 );
 
-ALTER TABLE persons ADD (full_name varchar(50)
-GENERATED ALWAYS AS (first_name || ' ' || last_name) VIRTUAL);
-
 /*
  *  To store the log-in information
  *  Note that a person may have been assigned different user_name(s), depending
@@ -85,3 +82,5 @@ CREATE TABLE pacs_images (
    PRIMARY KEY(record_id,image_id),
    FOREIGN KEY(record_id) REFERENCES radiology_record
 );
+
+exit;

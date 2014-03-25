@@ -1,3 +1,4 @@
+/*Builds the inverted Indexs we need. They are set tp update on commit*/
 CREATE INDEX rad_rec_diagnosis on radiology_record(diagnosis)
 INDEXTYPE IS CTXSYS.CONTEXT
 parameters ('sync (on commit)');
@@ -17,4 +18,6 @@ parameters ('sync (on commit)');
 CREATE INDEX person_last_name on persons(last_name)
 INDEXTYPE is CTXSYS.CONTEXT
 parameters ('sync (on commit)');
+
+exit;
 

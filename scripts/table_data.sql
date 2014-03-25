@@ -1,8 +1,11 @@
+/*The following is some test data for the project*/
+/*May  be some small issues with it but it generally works as a starting point*/
+
 /* Load up the persons table */
 INSERT INTO persons
 (person_id, first_name, last_name, address, email, phone)
 VALUES
-(1, 'James', 'Hodgson', '4408 Pleasant Swale, Waterloo, Manitoba, R7N-3Y6, CA', 
+(11, 'James', 'Hodgson', '4408 Pleasant Swale, Waterloo, Manitoba, R7N-3Y6, CA', 
 'UTeredly2489@armyspy.com', '159-5633');
 /*----------------------------------------------------------------------------*/
 INSERT INTO persons
@@ -142,7 +145,7 @@ VALUES
 INSERT INTO users
 (user_name, password, class, person_id, date_registered)
 VALUES
-('jhodgson', '1234', 'a', 1, sysdate);
+('jhodgson', '1234', 'a', 11, sysdate);
 /*----------------------------------------------------------------------------*/
 INSERT INTO users
 (user_name, password, class, person_id, date_registered)
@@ -396,3 +399,5 @@ VALUES
 
 /*Load up the images table*/
 /*Have not figured out how to upload local images as of yet*/
+
+exit;

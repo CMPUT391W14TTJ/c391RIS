@@ -4,7 +4,7 @@
 <?php
 	
 	include('./inc/navigation.php');
-	include('./inc/ReportPicker.php');
+	include('./inc/ReportForm.php');
 	include('ReportGeneratingModule.php');
 	
 	session_start();

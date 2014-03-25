@@ -14,15 +14,14 @@ function generateReport($diagnosis, $start_month, $start_day, $start_year, $end_
 		TO_DATE(\'' . $end_month . $end_day . $end_year . '\', \'MMDDYYYY\'))
 		GROUP BY first_name, last_name, address, phone, diagnosis';
 		
-	echo $sql;
+	//echo $sql;
 
-		$conn = connect();
-
+	$conn = connect();
 	if (!$conn) {
   			$e = oci_error();
   			trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
    		} 
-		//Parse the sql
+	//Parse the sql
 	$stid = oci_parse($conn, $sql);
 	//Execute
 	$res = oci_execute($stid);
