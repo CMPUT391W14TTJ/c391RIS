@@ -7,7 +7,7 @@
 	    <li><a href="./UploadPage.php" title="Uploading Module">Upload</a></li>
 	    <li><a href="./Search.php" title="Search Module">Search</a></li>
 	    <?php
-	    	include ('./classes/user.php');
+	    	include ('../classes/user.php');
 		session_start();
 		$userName = $_SESSION['user']->username;
 		if(strcmp($userName,'admin') == 0){
