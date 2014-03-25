@@ -1,0 +1,33 @@
+ <HTML>
+<HEAD>
+	<title>UM Change Users </title>
+</HEAD>
+<BODY>
+<?php
+	session_start();
+	include('./inc/PHPconnectionDB.php');
+	$conn = connect();
+	if (!$conn) {
+   		$e = oci_error();
+   		trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
+   		
+   $_SESSION['umu_insERR'] = FALSE;
+   $_SESSION['umu_insMSG'] = "";
+   if(isset($_POST['InsertUsers')) {
+   	validateinsert();
+   	if($_SESSION['umu_insERR' == FALSE) {
+   		$sql = "INSERT INTO users('user_name', 'password', 'class', 'person_id', 'date_registered')" .
+   			"VALUES ('" . $_POST['iNewUserName'] . "'" .
+   			$_POST['iNewPassword'] . "'" .
+   			"'" . $_POST['iNewClass'] . "'" .
+   			$_POST['insertUserSelect'] .
+   			"'" . $_POST['iNewDateRegistered'] . "')";
+   		$stid = oci_parse($conn, $sql);
+   		$res = oci_execute($stid);
+  			if (!$res) {
+				$e = oci_error($stid);
+				trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
+			}
+	    	header( 'Location: ./um_users.php' );
+</BODY>
+</HTML>
