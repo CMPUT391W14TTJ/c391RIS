@@ -10,6 +10,8 @@
 	
 	<p><?php echo "image id: " . $_GET['id'] . '<br/>'; 
 		displayImg($_GET['id'], "regular_size"); ?></p>
+	<p><?php echo "image id: " . $_GET['id'] . '<br/>'; 
+		displayImg($_GET['id'], "full_size"); ?></p>
 	
 </body>
 </html>

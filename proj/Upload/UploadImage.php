@@ -32,21 +32,64 @@ function generateImageID() {
 }
 
 function createThumbnail() {
-	$resizedThumbnail = '/tmp/newthumbnail.jpg';
-	unlink($resizedFile);
+	if ($_FILES["file"]["type"] == "image/gif") {
+		$resizedThumbnail = '/tmp/newthumbnail.gif';
+	} else if ($_FILES["file"]["type"] == "image/jpeg") {
+		$resizedThumbnail = '/tmp/newthumbnail.jpeg';
+	} else if ($_FILES["file"]["type"] == "image/jpg") {
+		$resizedThumbnail = '/tmp/newthumbnail.jpg';
+	} else if ($_FILES["file"]["type"] == "image/pjpeg") {
+		$resizedThumbnail = '/tmp/newthumbnail.pjpeg';
+	} else if ($_FILES["file"]["type"] == "image/x-png") {
+		$resizedThumbnail = '/tmp/newthumbnail.x-png';
+	} else if ($_FILES["file"]["type"] == "image/png") {
+		$resizedThumbnail = '/tmp/newthumbnail.png';
+	}
+	
+	unlink($resizedThumbnail);
 
 	smart_resize_image($_FILES['file']['tmp_name'], 100, 100, false, $resizedThumbnail, false, false, 100);
 	
 	return $resizedThumbnail;
 }
 
-function createLargeSize() {
+
+function createRegularSize() {
+	if ($_FILES["file"]["type"] == "image/gif") {
+		$resizedLarge= '/tmp/newlarge.gif';
+	} else if ($_FILES["file"]["type"] == "image/jpeg") {
+		$resizedLarge = '/tmp/newlarge.jpeg';
+	} else if ($_FILES["file"]["type"] == "image/jpg") {
+		$resizedLarge = '/tmp/newlarge.jpg';
+	} else if ($_FILES["file"]["type"] == "image/pjpeg") {
+		$resizedLarge = '/tmp/newlarge.pjpeg';
+	} else if ($_FILES["file"]["type"] == "image/x-png") {
+		$resizedLarge = '/tmp/newlarge.x-png';
+	} else if ($_FILES["file"]["type"] == "image/png") {
+		$resizedLarge = '/tmp/newlarge.png';
+	}
+
+	unlink($resizedLarge);
+
+	$size = getimagesize($_FILES['file']['tmp_name']);
+	$width = round($size[0] * 0.75);
+	$height = round($size[1] * 0.75);
+	
+	if (($width <= 100) || ($height <= 100)) {
+		return $_FILES['file']['tmp_name'];
+	} else {
+		smart_resize_image($_FILES['file']['tmp_name'], $width-100, $height-100, false, $resizedLarge, false, false, 100);
+
+		return $resizedLarge;
+	}
 }
+
 
 function buildQuery() {
 	$imageID = generateImageID();
 	$thumbnail = createThumbnail();
-	
+	$regImg = createRegularSize();
+
 	$conn = connect();
 	if (!$conn) {
    		$e = oci_error();
@@ -55,14 +98,20 @@ function buildQuery() {
 	
 	$lob = oci_new_descriptor($conn, OCI_D_LOB);
 	$lob1 = oci_new_descriptor($conn, OCI_D_LOB);
-	$stmt = oci_parse($conn, 'insert into pacs_images (record_id, image_id, thumbnail, regular_size) '
-		. 'values(:recordid, :imageid, empty_blob(), empty_blob()) returning thumbnail, regular_size into :thumbdata, :blobdata');
+	$lob2 = oci_new_descriptor($conn, OCI_D_LOB);
+	$stmt = oci_parse($conn, 'insert into pacs_images (record_id, image_id, thumbnail, regular_size, full_size) '
+		. 'values(:recordid, :imageid, empty_blob(), empty_blob(), '
+		. 'empty_blob()) returning thumbnail, regular_size, '
+		. 'full_size into :thumbdata, :blobdata, :fullsize');
 	oci_bind_by_name($stmt, ':recordid', $_POST['record_id']);
 	oci_bind_by_name($stmt, ':imageid', $imageID);
 	oci_bind_by_name($stmt, ':blobdata', $lob, -1, OCI_B_BLOB);
 	oci_bind_by_name($stmt, ':thumbdata', $lob1, -1, OCI_B_BLOB);
+	oci_bind_by_name($stmt, ':fullsize', $lob2, -1, OCI_B_BLOB);
 	oci_execute($stmt, OCI_DEFAULT);
-	if ($lob->savefile($_FILES['file']['tmp_name']) && $lob1->savefile($thumbnail)) {
+	if ($lob2->savefile($_FILES['file']['tmp_name']) 
+		&& $lob1->savefile($thumbnail)
+		&& $lob->savefile($regImg)) {
 		oci_commit($conn);
 		$_SESSION['img_suc'] = True;
 		$_SESSION['suc_msg'] = "Image uploaded";
@@ -73,11 +122,13 @@ function buildQuery() {
 
 	$lob->free(); 
 	$lob1->free();
+	$lob2->free();
 	
 	oci_close();
 	
 	header('Location: ../UploadPage.php');
 	exit(1);
+
 }
 
 $allowedExts = array("gif", "jpeg", "jpg", "png", "txt");
@@ -91,13 +142,16 @@ if (!isset($_FILES['file']['name'])) {
 	exit(1);
 }
 
+$size = getimagesize($_FILES["file"]["tmp_name"]);
+
 if ((($_FILES["file"]["type"] == "image/gif")
 	|| ($_FILES["file"]["type"] == "image/jpeg")
 	|| ($_FILES["file"]["type"] == "image/jpg")
 	|| ($_FILES["file"]["type"] == "image/pjpeg")
 	|| ($_FILES["file"]["type"] == "image/x-png")
 	|| ($_FILES["file"]["type"] == "image/png"))
-	&& ($_FILES["file"]["size"] < 20000)
+	&& ($size[0] <= 1600)
+	&& ($size[1] <= 1600)
 	&& in_array($extension, $allowedExts)) {
 	
 	if ($_FILES["file"]["error"] > 0) {
@@ -108,7 +162,7 @@ if ((($_FILES["file"]["type"] == "image/gif")
 } else {
 	$_SESSION['img_err'] = True;
 	$_SESSION['err_msg'] = "File must be of format: gif, jpeg, jpg, pjpeg, " .
-		"x-png, or png";
+		"x-png, or png AND must be smaller than 1600x1600 px";
 	header('Location: ../UploadPage.php');
 	exit(1);
 }
