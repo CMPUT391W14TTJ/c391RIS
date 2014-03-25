@@ -17,3 +17,6 @@ dev:
 	sqlplus jhodgson/qwer1234 @scripts/admin.sql
 	sqlplus jhodgson/qwer1234 @scripts/table_data.sql
 
+mod:
+	find ./ -type d -exec chmod 755 {} +
+	find ./ -type f -exec chmod 644 {} +

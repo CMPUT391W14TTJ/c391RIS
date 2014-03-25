@@ -17,8 +17,12 @@
 	$end_month = sprintf("%02s", $_POST['End_month']);
 	$end_day = sprintf("%02s", $_POST['End_day'] + 1);
 	$end_year = $_POST['End_year'];
-	
-	generateReport($diagnosis, $start_month, $start_day, $start_year, $end_month, $end_day, $end_year);		
+	if($_SERVER['REQUEST_METHOD']=='POST')
+	{
+   		generateReport($diagnosis, $start_month, $start_day, 
+   		$start_year, $end_month, $end_day, $end_year);
+	} 
+		
 	
 ?>
 </p>
