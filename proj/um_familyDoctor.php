@@ -49,7 +49,20 @@
 			echo "</select><br/>";
 		?>
 		<input type="submit" name="iDocPat" value="Insert"/>
-	</form>	<form name="insertDocPat" method="post" action="changeFamilyDoctor.php">
+	</form>
+	<p style="color:red;" >
+		<?php
+		if (isset($_SESSION['umd_insERR'])) {
+			if (isset($_SESSION['umd_insERRMSG'])) {
+				echo $_SESSION['umd_insERRMSG'];
+			}
+			$_SESSION['umd_insERR'] = FALSE;
+			$_SESSION['umd_insERRMSG'] = "";
+		}
+		?>
+	</p>
+
+	<form name="insertDocPat" method="post" action="changeFamilyDoctor.php">
 		<h2> Update Existing Doctor and Patient </h2>
 		<h3> Old Info: </h3>
 		Old Doctor:
@@ -97,24 +110,14 @@
 			}
 			echo "</select><br/>";
 		?>
-		<input type="submit" name="uDocPat" value="Insert"/>
+		<input type="submit" name="uDocPat" value="Update"/>
 	</form>
 	<?php
 		$sql = "SELECT d.first_name as DFN, d.last_name as DLN, fd.doctor_id as DID, p.first_name as PFN, p.last_name as PLN, fd.patient_id as PID FROM persons d, persons p, family_doctor fd WHERE d.person_id = fd.doctor_id and p.person_id = fd.patient_id";
 		$stid = oci_parse($conn, $sql);
 		$result = oci_execute($stid);
 	?>
-	<p style="color:blue" >
-		<?php
-		if (isset($_SESSION['umd_updERR'])) {
-			if (isset($_SESSION['umd_updERRMSG'])) {
-				echo $_SESSION['umd_updERRMSG'];
-			}
-			$_SESSION['umd_updERR'] = FALSE;
-			$_SESSION['umd_updERRMSG'] = "";
-		}
-	?>
-	</p>
+
 	<TABLE BORDER = 1>
 	<TR>
 	<TD colspan="3" align="center">DOCTOR</TD>

@@ -26,20 +26,25 @@
 	function validateupdate() {
 		if(empty($_POST['uOldDocID'])) {
 			$_SESSION['umd_updERR'] = TRUE;
-			$_SESSION['umd_updERRMSG'] = "All four fields are required! <br/>";	
+			$_SESSION['umd_updERRMSG'] = "Both old information fields are required! <br/>";	
 		}
 		if(empty($_POST['uOldPatID'])) {
 			$_SESSION['umd_updERR'] = TRUE;
-			$_SESSION['umd_updERRMSG'] = "All four fields are required! <br/>";	
+			$_SESSION['umd_updERRMSG'] = "Both old
+		information fields  are required! <br/>";	
+		}
+                if(empty($_POST['uNewPatID']) and empty($_POST['uNewDocID'])) {
+			$_SESSION['umd_updERR'] = TRUE;
+			$_SESSION['umd_updERRMSG'] = "A new information field is required! <br/>";	
 		}
 		if(empty($_POST['uNewDocID'])) {
-			$_SESSION['umd_updERR'] = TRUE;
+			$_POST['uNewDocID'] = $_POST['uOldDocID']
 			$_SESSION['umd_updERRMSG'] = "All four fields are required! <br/>";	
 		}
-		if(empty($_POST['uNewPatID'])) {
+                if(empty($_POST['uNewPatID']) and empty($_POST['uNewDocID'])) {
 			$_SESSION['umd_updERR'] = TRUE;
-			$_SESSION['umd_updERRMSG'] = "All four fields are required! <br/>";	
-		}		
+			$_SESSION['umd_updERRMSG'] = "A new information field is required! <br/>";	
+		}
 	}
 	if (isset($_POST['iDocPat'])) {	
 		$_SESSION['umd_insERR'] = FALSE;
