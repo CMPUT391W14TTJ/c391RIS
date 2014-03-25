@@ -1,23 +1,27 @@
 <?php
-	function work() {
-		echo "work";
-	}
-	function displayImg() {
-		$conn = connect();
-		if (!$conn) {
+	/**
+	 * displayImg: 
+	 * parameters - imageID: id of the image you are trying to access
+	 *		imageType: thumbnail, regular_size, or large_size
+	 * returns the image in img tags.
+	 */
+	function displayImg($imageID, $imageType) {
+		$con = connect();
+		if (!$con) {
    			$e = oci_error();
    			trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
 		}
-		$query = "SELECT thumbnail FROM pacs_images WHERE record_id = 5";
-		$stmt = oci_parse($conn, $query);
+		$query = "SELECT " . $imageType . " FROM pacs_images WHERE image_id = ". $imageID;
+		$stmt = oci_parse($con, $query);
 		oci_execute($stmt);
 		if ($arr = oci_fetch_array($stmt, OCI_ASSOC)) {	
-			$result = $arr['THUMBNAIL']->load();
-			//echo base64_encode($result);
-			echo "<dt><strong>Technician Image:</strong></dt><dd>" . 
-    	 			'<img src="data:image/jpeg;base64,'.
+			$result = $arr[strtoupper($imageType)]->load();
+			$imgSize = getImageSize($result);
+
+			echo '<img src="data:image/jpeg;base64,'.
       			base64_encode($result).
-      			'" width="244" height="207">' . "</dd>";
+      			'" width="'. $imgSize[0] . '" height="'. $imgSize[1] . 
+				'">';
 		} else {
 			echo "didn't work";
 		}
