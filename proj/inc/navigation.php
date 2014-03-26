@@ -24,6 +24,8 @@
 	    		echo "<li><a href=\"./DataAnalysis.php\" title=\"Data Analysis\">Data Analysis</a></li>";
 	    	}
 	    	echo "<li><a href=\"./logout.php\" title=\"Logout\">Logout</a></li>";
+	    	
+	    	echo "<li><a href=\"./Help.php\" title=\"Help\">Help</a></li>";
 	?>
 	</nav>
 <article>

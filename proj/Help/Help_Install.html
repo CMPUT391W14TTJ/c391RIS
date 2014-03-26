@@ -1,0 +1,29 @@
+<HTML>
+<title> Help Install 391 TTJ </title>
+<h1>Installation</h1>
+<hr width="100%"> 
+
+<h2>Web Server Install</h2>
+<p>
+All files inside the proj folder must reside at your web servers root directory where
+the radiology system will reside. All links are relative and no folders or files 
+need to be moved once they are put in their proper location. 
+</p>
+<h2>Initializing the database</h2>
+<p>
+There is a make file that can be used to setup your database with the proper tables 
+and with a initial admin user set to Username: admin, password: Admin. This make file
+is located in the scripts folder and should be run from there. The make file can be 
+altered to use a different username and password for sql plus login.  
+</p>
+<h2>Other Info</h2>
+<p>
+There is a make file inside the main system folder. This can be used to run the scripts
+and to ensure the web files have the right permissions however this file will not
+work properly if any of the folders are moved or renamed so be aware of this. 
+</p>
+<p>
+The web files and folders may need their persmissions reset if the site is not working.
+Chmod 755 for folders and 644 should work.
+</p>
+</HTML>
