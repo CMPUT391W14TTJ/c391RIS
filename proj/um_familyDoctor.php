@@ -28,29 +28,29 @@
 		<h2> Insert New Doctor and Patient </h2>
 		Doctor:
 		<?php
-			$sql = "SELECT DISTINCT full_name, doctor_id FROM persons, family_doctor WHERE person_id = doctor_id";
+			$sql = "SELECT DISTINCT d.full_name as DFN , d.person_id as DID FROM persons d, users u WHERE d.person_id = u.person_id and u.class = 'd'";
 			$stid = oci_parse($conn, $sql);
 			oci_execute($stid);
 			echo "<select name='iDocID'><option value=''>---SELECT---</option>";				
 			while($row = oci_fetch_array($stid)) {
-				echo "<option value=" . $row['DOCTOR_ID'] . ">" . $row['FULL_NAME'] . "</option>";
+				echo "<option value=" . $row['DID'] . ">" . $row['DFN'] . "</option>";
 			}
 			echo "</select><br/>";
 		?>
 		Patient: 		
 		<?php
-			$sql = "SELECT DISTINCT full_name, patient_id FROM persons, family_doctor WHERE person_id = patient_id";
+			$sql = "SELECT DISTINCT p.full_name as PFN, p.person_id as PID FROM persons p, users u WHERE p.person_id = u.person_id and u.class = 'p'";
 			$stid = oci_parse($conn, $sql);
 			oci_execute($stid);
 			echo "<select name='iPatID'><option value=''>---SELECT---</option>";				
 			while($row = oci_fetch_array($stid)) {
-				echo "<option value=" . $row['PATIENT_ID'] . ">" . $row['FULL_NAME'] . "</option>";
+				echo "<option value=" . $row['PID'] . ">" . $row['PFN'] . "</option>";
 			}
 			echo "</select><br/>";
 		?>
 		<input type="submit" name="iDocPat" value="Insert"/>
 	</form>
-	<p style="color:red;" >
+	<p style="color:red;">
 		<?php
 		if (isset($_SESSION['umd_insERR'])) {
 			if (isset($_SESSION['umd_insERRMSG'])) {
@@ -90,28 +90,39 @@
 		<h3> New Info: </h3>
 		New Doctor:
 		<?php
-			$sql = "SELECT DISTINCT full_name, doctor_id FROM persons, family_doctor WHERE person_id = doctor_id";
+			$sql = "SELECT DISTINCT d.full_name as DFN , d.person_id as DID FROM persons d, users u WHERE d.person_id = u.person_id and u.class = 'd'";
 			$stid = oci_parse($conn, $sql);
 			oci_execute($stid);
 			echo "<select name='uNewDocID'><option value=''>---SELECT---</option>";				
 			while($row = oci_fetch_array($stid)) {
-				echo "<option value=" . $row['DOCTOR_ID'] . ">" . $row['FULL_NAME'] . "</option>";
+				echo "<option value=" . $row['DID'] . ">" . $row['DFN'] . "</option>";
 			}
 			echo "</select>";
 		?>
 		New Patient: 		
 		<?php
-			$sql = "SELECT DISTINCT full_name, patient_id FROM persons, family_doctor WHERE person_id = patient_id";
+			$sql = "SELECT DISTINCT p.full_name as PFN, p.person_id as PID FROM persons p, users u WHERE p.person_id = u.person_id and u.class = 'p'";
 			$stid = oci_parse($conn, $sql);
 			oci_execute($stid);
 			echo "<select name='uNewPatID'><option value=''>---SELECT---</option>";				
 			while($row = oci_fetch_array($stid)) {
-				echo "<option value=" . $row['PATIENT_ID'] . ">" . $row['FULL_NAME'] . "</option>";
+				echo "<option value=" . $row['PID'] . ">" . $row['PFN'] . "</option>";
 			}
 			echo "</select><br/>";
 		?>
 		<input type="submit" name="uDocPat" value="Update"/>
 	</form>
+	<p style="color:red;">
+		<?php
+		if (isset($_SESSION['umd_updERR'])) {
+			if (isset($_SESSION['umd_updERRMSG'])) {
+				echo $_SESSION['umd_updERRMSG'];
+			}
+			$_SESSION['umd_updERR'] = FALSE;
+			$_SESSION['umd_updERRMSG'] = "";
+		}
+		?>
+	</p>
 	<?php
 		$sql = "SELECT d.first_name as DFN, d.last_name as DLN, fd.doctor_id as DID, p.first_name as PFN, p.last_name as PLN, fd.patient_id as PID FROM persons d, persons p, family_doctor fd WHERE d.person_id = fd.doctor_id and p.person_id = fd.patient_id";
 		$stid = oci_parse($conn, $sql);

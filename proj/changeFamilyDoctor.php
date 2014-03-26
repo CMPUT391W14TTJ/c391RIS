@@ -12,35 +12,18 @@
 		$e = oci_error();
    	trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
    }
-	function validateinsert() {
-		if(empty($_POST['iDocID'])) {
-			$_SESSION['umd_insERR'] = TRUE;
-			$_SESSION['umd_insERRMSG'] = "Both fields are required! <br/>";	
-		}
-		if(empty($_POST['iPatID'])) {
-			$_SESSION['umd_insERR'] = TRUE;
-			$_SESSION['umd_insERRMSG'] = "Both fields are required! <br/>";	
-		}
-	}
 	
-	function validateupdate() {
-		if(empty($_POST['uOldDocID'])) {
-			$_SESSION['umd_updERR'] = TRUE;
-			$_SESSION['umd_updERRMSG'] = "All four fields are required! <br/>";	
+	function validateinsert() {
+		if(empty($_POST['iDocID']) || $_POST['iDocID'] == '' ) {
+			$_SESSION['umd_insERR'] = TRUE;
+			$_SESSION['umd_insERRMSG'] = "Both fields are required! <br/>";	
 		}
-		if(empty($_POST['uOldPatID'])) {
-			$_SESSION['umd_updERR'] = TRUE;
-			$_SESSION['umd_updERRMSG'] = "All four fields are required! <br/>";	
+		if(empty($_POST['iPatID']) || $_POST['iPatID'] == '') {
+			$_SESSION['umd_insERR'] = TRUE;
+			$_SESSION['umd_insERRMSG'] = "Both fields are required! <br/>";	
 		}
-		if(empty($_POST['uNewDocID'])) {
-			$_SESSION['umd_updERR'] = TRUE;
-			$_SESSION['umd_updERRMSG'] = "All four fields are required! <br/>";	
-		}
-		if(empty($_POST['uNewPatID'])) {
-			$_SESSION['umd_updERR'] = TRUE;
-			$_SESSION['umd_updERRMSG'] = "All four fields are required! <br/>";	
-		}		
 	}
+
 	if (isset($_POST['iDocPat'])) {	
 		$_SESSION['umd_insERR'] = FALSE;
 		$_SESSION['umd_insERRMSG'] = "";
@@ -51,28 +34,54 @@
 			$stid = oci_parse($conn, $sql);
 			$res = oci_execute($stid);
 	   	if (!$res) {
-				$e = oci_error($stid);
-				trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
-				echo "it broke";
+				$_SESSION['umd_insERR'] = TRUE;
+				$_SESSION['umd_insERRMSG'] = "This relationship is already in the table! <br/>";
 			}
 		}
 		header( 'Location: ./um_familyDoctor.php' );
+	}	
+	
+	function validateupdate() {
+		if(empty($_POST['uOldDocID'])) {
+			$_SESSION['umd_updERR'] = TRUE;
+			$_SESSION['umd_updERRMSG'] = "Both old fields are required! <br/>";	
+		}
+		if(empty($_POST['uOldPatID'])) {
+			$_SESSION['umd_updERR'] = TRUE;
+			$_SESSION['umd_updERRMSG'] = "Both old fields are required! <br/>";
+		}			
+		if(empty($_POST['uNewDocID']) && empty($_POST['uNewPatID'])) {
+			$_SESSION['umd_updERR'] = TRUE;
+			$_SESSION['umd_updERRMSG'] .= "At least one new field is required! <br/>";	
+		}
 	}
+
+	
 	if (isset($_POST['uDocPat'])) {	
 		$_SESSION['umd_updERR'] = FALSE;
-		$_SESSION['umd_updERRMSG'] = "";
+		$_SESSION['umd_updERRMSG'] = "";	
 		
-		validateinsert();
+		validateupdate();
+		
+		$newDoc = $_POST['uOldDocID'];		
+		$newPat = $_POST['uOldPatID'];		
+		
+		if(!(empty($_POST['uNewDocID']))) {
+			$newDoc = $_POST['uNewDocID'];
+		}
+		if(!(empty($_POST['uNewPatID']))) {
+			$newDoc = $_POST['uNewPatID'];
+		}
+		
 		if($_SESSION['umd_updERR'] == FALSE) {
-			$sql = "UPDATE family_doctor SET (doctor_id =" .
-				$_POST['uNewDocID'] . ", patient_id =" . $_POST['uNewPatID'] .
-				" WHERE doctor_id =" . $_POST['uOldDocID'] . "," . $_POST['uOldPatID'];
+			$sql = "UPDATE family_doctor SET doctor_id =" .
+				$newDoc . ", patient_id =" . $newPat .
+				" WHERE doctor_id =" . $_POST['uOldDocID'] . " and patient_id=" . $_POST['uOldPatID'];
 			$stid = oci_parse($conn, $sql);
 			$res = oci_execute($stid);
 	   	if (!$res) {
-				$e = oci_error($stid);
-				trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
-				echo "it broke";
+				$_SESSION['umd_updERR'] = TRUE;
+				$_SESSION['umd_updERRMSG'] = "Update Failed! <br/>";
 			}
 		}
 		header( 'Location: ./um_familyDoctor.php' );
