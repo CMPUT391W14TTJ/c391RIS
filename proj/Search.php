@@ -3,12 +3,14 @@
 <p>
 <?php
 	
-	include('./inc/navigation.php');
-	include('./inc/SearchForm.php');
 	include('SearchModule.php');
 	include ('./classes/user.php');
 	
 	session_start();
+	
+	include('./inc/navigation.php');
+	include('./inc/SearchForm.php');
+	
 	
 	//Get the variables we need
 	$keywords = $_POST['Keywords'];

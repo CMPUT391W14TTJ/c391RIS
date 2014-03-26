@@ -3,12 +3,18 @@
 <p>
 <?php
 	
-	include('./inc/navigation.php');
-	include('./inc/ReportForm.php');
 	include('ReportGeneratingModule.php');
-	
+	include ('./classes/user.php');
 	session_start();
+	include('./inc/navigation.php');
+	$userName = $_SESSION['user']->username;
+
+	if(strcmp($userName,'admin') != 0 && strcmp($user_class,'r') != 0){
+		header( "Location: ./unauthorized.html");
+	}
 	
+	include('./inc/ReportForm.php');
+
 	//Get the variables we need
 	$diagnosis = $_POST['diagnosis'];
 	$start_month = sprintf("%02s", $_POST['Start_month']);
@@ -22,7 +28,6 @@
    		generateReport($diagnosis, $start_month, $start_day, 
    		$start_year, $end_month, $end_day, $end_year);
 	} 
-		
 	
 ?>
 </p>

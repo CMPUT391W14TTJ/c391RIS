@@ -7,8 +7,15 @@
 </head>
 <body>	
 	<?php
-		include('./inc/navigation.php');
+		include ('./classes/user.php');
 		session_start();
+		include('./inc/navigation.php');
+		
+		$userName = $_SESSION['user']->username;
+		if(strcmp($userName,'admin') != 0){
+			header( "Location: ./unauthorized.html");
+		}
+		
 		$conn = connect();
 		if (!$conn) {
 			$e = oci_error();
@@ -71,12 +78,12 @@
 	<?php
 		while ($row = oci_fetch_array($stid, OCI_ASSOC+OCI_RETURN_NULLS)) {
 			echo "<tr>\n";
-			echo "<td>" . $row['PERSON_ID'] . "</td>\n";
-			echo "<td>" . $row['FIRST_NAME'] . "</td>\n";
-			echo "<td>" . $row['LAST_NAME'] . "</td>\n";
-			echo "<td>" . $row['ADDRESS'] . "</td>\n";
-			echo "<td>" . $row['EMAIL'] . "</td>\n";
-			echo "<td>" . $row['PHONE'] . "</td>\n";
+			echo "<td>" . $row['PERSON_ID'] . "</td>";
+			echo "<td>" . $row['FIRST_NAME'] . "</td>";
+			echo "<td>" . $row['LAST_NAME'] . "</td>";
+			echo "<td>" . $row['ADDRESS'] . "</td>";
+			echo "<td>" . $row['EMAIL'] . "</td>";
+			echo "<td>" . $row['PHONE'] . "</td>";
 			echo "</tr>\n";
 		}
 		echo "</table>\n";

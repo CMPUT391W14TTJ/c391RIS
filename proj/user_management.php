@@ -4,7 +4,13 @@
 </head>
 <body>	
 	<?php
+		include ('./classes/user.php');
 		include('./inc/navigation.php');
+		
+		$userName = $_SESSION['user']->username;
+		if(strcmp($userName,'admin') != 0){
+			header( "Location: ./unauthorized.html");
+		}
 	?>
 	<h1>Select A Table To Edit Here</h1>
 	<!--Do an assert here to ensure that the person logged in is an Admin -->
