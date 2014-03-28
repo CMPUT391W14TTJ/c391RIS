@@ -1,0 +1,32 @@
+<HTML>
+<title> Help Search Generator 391 TTJ </title>
+<h1>Report Generator</h1>
+<hr width="100%"> 
+
+<h2>Overview</h2>
+<p>
+This module allows any registered user to search the database for a list of
+relavant records and as well to view the medical images associated with it. The
+search is bounded by the users security level however such that patients can
+only seem records on themselfs, doctors on their patients, radiologists on any
+records they uploaded and administrators can see all. 
+</p>
+<h2>Generating the Search</h2>
+<p>
+All fields are optional however inputting no date range and no keyword(s) will return
+no results. The keyword search is very simple and thus a record will be returned if one of the 
+keywords exists in either the patient name, the record description or the diagnosis. 
+</p>
+<h2>Ordering</h2>
+<p>
+The results can be ordered in one of three ways. Ascending by date, decending by date
+or the default which is ranked by keyword frequency in the three seach fields.
+</p>
+<h2>Advanced Search</h2>
+<p>
+If one would like to search for the name 'John Smith' a regular keyword search would 
+return such names as 'John Doe' or 'Steve Smith'. To get only name containing 'John Smith' 
+search using '&' to bridge together two or more words into a single unite. The search would
+then become 'John&Smith' and would not return 'John Doe'.
+</p>
+</HTML>

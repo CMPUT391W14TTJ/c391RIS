@@ -7,8 +7,15 @@
 </head>
 <body>	
 	<?php
-		include('./inc/navigation.php');
+		include ('./classes/user.php');
 		session_start();
+		include('./inc/navigation.php');
+		
+		$userName = $_SESSION['user']->username;
+		if(strcmp($userName,'admin') != 0){
+			header( "Location: ./unauthorized.html");
+		}
+		
 		$conn = connect();
 		if (!$conn) {
 			$e = oci_error();

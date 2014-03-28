@@ -6,11 +6,19 @@
 	<?php 
 		error_reporting(E_ALL);
 		ini_set('error_reporting', E_ALL);
+		include ('./classes/user.php');
 		session_start();
 		include( './inc/navigation.php' );
 		include( './inc/Date.php' );
 		include( './inc/PHPconnectionDB.php' );
 		include( './Upload/DisplayIDs.php' );
+		
+		$userName = $_SESSION['user']->username;
+		$user_class = $_SESSION['user']->user_class;
+	
+		if(strcmp($userName,'admin') != 0 && strcmp($user_class,'r') != 0){
+			header( "Location: ./unauthorized.html");
+		}
 	 ?>
 	<article class="upload_record">
 		<h2>Upload Radiology Record:</h2>

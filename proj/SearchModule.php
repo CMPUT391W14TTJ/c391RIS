@@ -33,7 +33,7 @@ function searchDB($keywords, $start, $end, $order, $userID, $userClass){
 			break;		
 	}
 	if($sql != 'none'){
-		//Setup the sort order
+		//Setup the sort orSELECT r.record_id, p.full_name, d.full_name as doctor_name, r.full_name as radiologist_name, r.test_type, r.prescribing_date, r.test_date, r.diagnosis, r.description FROM radiology_record r, persons p, persons d, persons f WHERE r.patient_id = p.person_id AND r.doctor_id = d.person_id AND r.radiologist_id = f.person_id AND( (contains(p.first_name, 'bi', 1) > 0) OR (contains(p.last_name, 'bi', 2) > 0) OR (contains(r.diagnosis, 'bi', 3) > 0) OR (contains(r.description, 'bi',4 ) > 0)) AND (r.test_date BETWEEN TO_DATE('01072010', 'MMDDYYYY') AND TO_DATE('06032014', 'MMDDYYYY')) AND r.patient_id = 12der
 		$sql.= setupOrder($order);
 		//echo $sql;
 		$conn = connect();
@@ -92,11 +92,11 @@ function setupOrder($order){
 */
 function select(){
 	return 'SELECT r.record_id, p.full_name, 
-		d.full_name as doctor_name, r.full_name as radiologist_name, r.test_type, r.prescribing_date,
+		d.full_name as doctor_name, f.full_name as radiologist_name, r.test_type, r.prescribing_date,
 		r.test_date, r.diagnosis, r.description
-		FROM radiology_record r, persons p, persons d, persons r
+		FROM radiology_record r, persons p, persons d, persons f
 		WHERE r.patient_id = p.person_id AND r.doctor_id = d.person_id
-		AND r.radiologist_id = r.person_id' ;
+		AND r.radiologist_id = f.person_id' ;
 }
 /**
 * Adds filtering of results by keywords(must be comma seperated)
