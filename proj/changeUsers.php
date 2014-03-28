@@ -3,7 +3,10 @@
 	<title>UM Change Users </title>
 </HEAD>
 <BODY>
+
 <?php
+	print_r($_POST);
+	echo "<li><a href=\"./user_management.php\" title=\"User Management\">User Management</a></li>";
 	include('./inc/PHPconnectionDB.php');
 	session_start();
 	
@@ -111,7 +114,7 @@
 				$sql .= "class = '" . $_POST['uNewClass'] . "', ";
 			}
 			if($_POST['uNewPersonID'] != '') {
-				$sql .= "person_id = '" . $_POST['uNewPersonID'] . "', ";
+				$sql .= "person_id = " . $_POST['uNewPersonID'] . ", ";
 			}
 			if(!(empty($_POST['uNewDateRegistered']))) {
 				$sql .= "date_registered = '" . $_POST['uNewDateRegistered'] . "', ";
@@ -129,6 +132,8 @@
    	}	
    }
 	header( 'Location: ./um_users.php' );
+
 ?>
+
 </BODY>
 </HTML>
