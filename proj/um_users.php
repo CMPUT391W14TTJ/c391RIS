@@ -23,7 +23,7 @@
 		}
 		
 		
-		$querypids = "SELECT person_id FROM persons";
+		$querypids = "SELECT p.person_id, u.user_name FROM persons p, users u WHERE p.person_id = u.person_id";
 		$parsepids = oci_parse($conn, $querypids);
 		$queryuids = "SELECT user_name FROM users";
 		$parseuids = oci_parse($conn, $queryuids);
@@ -46,7 +46,7 @@
 			<?php
 				echo "<select name='iNewPersonID'><option value=''>---SELECT ID From Persons---</option>";				
 				while($pid = oci_fetch_array($parsepids)) {
-					echo "<option value=" . $pid['PERSON_ID'] . ">" . $pid['PERSON_ID'] . "</option>";
+					echo "<option value=" . $pid['PERSON_ID'] . ">" . $pid['PERSON_ID'] . " -- " . $pid['USER_NAME'] . "</option>";
 				}
 				echo "</select><br/>";
 			?>
