@@ -7,15 +7,8 @@
 </head>
 <body>	
 	<?php
-		include ('./classes/user.php');
-		session_start();
 		include('./inc/navigation.php');
-		
-		$userName = $_SESSION['user']->username;
-		if(strcmp($userName,'admin') != 0){
-			header( "Location: ./unauthorized.html");
-		}
-		
+		session_start();
 		$conn = connect();
 		if (!$conn) {
 			$e = oci_error();
@@ -32,7 +25,7 @@
 		</nav>
 	</article>
 	<form name="changepersons" method="post" action="changePersons.php">
-		<h2> Enter to update OR leave blank to insert new </h2>
+		<h2> Enter the old information </h2>
 		Person ID:
 		<?php
 			$querypids = "SELECT person_id FROM persons";
