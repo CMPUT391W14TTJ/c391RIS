@@ -23,7 +23,7 @@
 		}
 		
 		
-		$querypids = "SELECT p.person_id FROM persons";
+		$querypids = "SELECT person_id, full_name FROM persons";
 		$parsepids = oci_parse($conn, $querypids);
 		$queryuids = "SELECT user_name FROM users";
 		$parseuids = oci_parse($conn, $queryuids);
