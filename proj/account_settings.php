@@ -7,6 +7,9 @@
 	<?php 
 		include('./inc/getInfo.php'); 
 		session_start();
+		if(!isset($_SESSION['user']->username)) {
+			header('Location: ./index.html');
+		}
 		include('./inc/navigation.php'); 
 		getUserInfo();
 		getPersonalInfo();

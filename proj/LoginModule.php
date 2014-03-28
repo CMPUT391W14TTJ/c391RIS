@@ -16,8 +16,6 @@
 	<?php	
 		// first check if the post was set
 		if (isset($_POST['validate'])) {
-			$_SESSION['user'] = new User;
-			$_SESSION['user']->setUserInfo($_POST['username'], $_POST['pw']); 
 			// will get rid of this once I have user class working properly
 
 			$conn = connect();
@@ -27,8 +25,8 @@
     			} 
 				
 			$sql = "SELECT person_id, class FROM users WHERE user_name = '" . 
-			    $_SESSION['user']->username . "' AND password = '" . 
-			    $_SESSION['user']->password . "'";
+			    $_POST['username'] . "' AND password = '" . 
+			    $_POST['pw'] . "'";
 
 			$stid = oci_parse($conn, $sql);
 			$res = oci_execute($stid);
@@ -37,6 +35,8 @@
 			 * if not deny them. 
 			 */
 			if (($row = oci_fetch_array($stid, OCI_ASSOC))) {
+				$_SESSION['user'] = new User;
+				$_SESSION['user']->setUserInfo($_POST['username'], $_POST['pw']);
 				$_SESSION['user']->setUserID($row['PERSON_ID']);
 				$_SESSION['user']->setUserClass($row['CLASS']);
 				//will remove this once I have user class working
