@@ -13,7 +13,7 @@
    	trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
    }
    
-	function validateinsert() {
+	function validateInsert() {
 		if(empty($_POST['iNewPersonID'])) {
 			$_SESSION['umu_insERR'] = TRUE;
 			$_SESSION['umu_insERRMSG'] .= "Person ID cannot be empty! <br/>";	
@@ -46,7 +46,7 @@
 		}
 	}
 	
-	function validateupdate() {
+	function validateUpdate() {
 		if(empty($_POST['uOldUserName'])) {
 			$_SESSION['umu_updERR'] = TRUE;
 			$_SESSION['umu_updERRMSG'] .= "Old User Name cannot be empty! <br/>";	
@@ -73,7 +73,7 @@
 		$_SESSION['umu_insERR'] = FALSE;
 		$_SESSION['umu_insERRMSG'] = "";
 		
-		validateinsert();	
+		validateInsert();	
 		if ($_SESSION['umu_insERR'] == FALSE) {
 			$sql = "INSERT INTO users(user_name, password, class, person_id, date_registered)" .
 	   		" VALUES ('" . $_POST['iNewUserName'] . "'," .
@@ -98,7 +98,7 @@
    	$_SESSION['umu_updERR'] = FALSE;
 		$_SESSION['umu_updERRMSG'] = "";
 
-		validateupdate();   	
+		validateUpdate();   	
 		if ($_SESSION['umu_updERR'] == FALSE) {   	
 	   	$sql = "UPDATE users SET ";
 			if(!(empty($_POST['uNewUserName']))) {

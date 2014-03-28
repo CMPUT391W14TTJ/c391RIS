@@ -25,7 +25,7 @@
 		</nav>
 	</article>
 	<form name="changepersons" method="post" action="changePersons.php">
-		<h2> Enter the old information </h2>
+		<h2> Enter to update OR leave blank to insert new </h2>
 		Person ID:
 		<?php
 			$querypids = "SELECT person_id FROM persons";
