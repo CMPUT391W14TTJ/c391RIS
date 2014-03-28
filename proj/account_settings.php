@@ -7,7 +7,7 @@
 	<?php 
 		include('./inc/getInfo.php'); 
 		session_start();
-		if(!isset($_SESSION['user']->username)) {
+		if(!isset($_SESSION['user']->username) || $_SESSION['user'] == null) {
 			header('Location: ./index.html');
 		}
 		include('./inc/navigation.php'); 
