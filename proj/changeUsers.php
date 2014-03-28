@@ -5,7 +5,6 @@
 <BODY>
 
 <?php
-	print_r($_POST);
 	echo "<li><a href=\"./user_management.php\" title=\"User Management\">User Management</a></li>";
 	include('./inc/PHPconnectionDB.php');
 	session_start();
@@ -83,15 +82,16 @@
 	   		"'" . $_POST['iNewPassword'] . "'," .
 	   		"'" . $_POST['iNewClass'] . "'," .
 	   		$_POST['iNewPersonID'] . "," .
-	   		"'" . $_POST['iNewDateRegistered'] . "')";
+	   		"TO_DATE('" .  $_POST['iNewDateRegistered'] ."', 'YYYY-MM-DD'))";
+	   	
 	   	$stid = oci_parse($conn, $sql);
 	   	$res = oci_execute($stid);
 	   	if (!$res) {
-				$e = oci_error($stid);
-				trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
-				echo "it broke";
+				$_SESSION['umu_insERR'] = TRUE;
+				$_SESSION['umu_insERRMSG'] .= "Insert Failed! Ensure User name is unique! <br/>";
 			}
    	}
+   	
    }
    /*
    * UPDATING FORM
@@ -117,7 +117,7 @@
 				$sql .= "person_id = " . $_POST['uNewPersonID'] . ", ";
 			}
 			if(!(empty($_POST['uNewDateRegistered']))) {
-				$sql .= "date_registered = '" . $_POST['uNewDateRegistered'] . "', ";
+				$sql .= "date_registered = TO_DATE('" .  $_POST['uNewDateRegistered'] ."', 'YYYY-MM-DD')" . ", ";
 			}
 			
 			$sql = substr($sql, 0, -2);
@@ -125,14 +125,15 @@
 			$stid = oci_parse($conn, $sql);
 			$res = oci_execute($stid);
 			if (!($res)) {
-				$e = oci_error($stid);
-				trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
-				echo "it broke";
+				$_SESSION['umu_updERR'] = TRUE;
+				$_SESSION['umu_updERRMSG'] .= "Update Failed! Ensure User name is unique! <br/>";
 			}
    	}	
    }
+   print_r($sql);
+   if (!($_SESSION['umu_updERR'])) {
 	header( 'Location: ./um_users.php' );
-
+}
 ?>
 
 </BODY>

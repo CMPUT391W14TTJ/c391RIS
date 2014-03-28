@@ -35,16 +35,16 @@
 		<h2> Enter to update OR leave blank to insert new </h2>
 		Person ID:
 		<?php
-			$querypids = "SELECT person_id FROM persons";
+			$querypids = "SELECT person_id, full_name FROM persons";
 			$parsepids = oci_parse($conn, $querypids);
 			oci_execute($parsepids);
 			echo "<select name='oldPersonID'><option value=''>---SELECT New ID---</option>";				
 			while($pid = oci_fetch_array($parsepids)) {
-				echo "<option value=" . $pid['PERSON_ID'] . ">" . $pid['PERSON_ID'] . "</option>";
+				echo "<option value=" . $pid['PERSON_ID'] . ">" . $pid['PERSON_ID'] . " -- " . $pid['FULL_NAME']. "</option>";
 			}
 			echo "</select><br/>";
 		?>
-		<h2> Enter new user's information </h2>
+		<h2> Enter Information </h2>
 		First Name: <input type="text" name="newFirstName"/><br/>
 		Last Name: <input type="text" name="newLastName"/><br/>
 		Address: <input type="text" name="newAddress"/><br/>

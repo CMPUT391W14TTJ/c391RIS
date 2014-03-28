@@ -4,17 +4,13 @@
 </HEAD>
 <BODY>
 <?php
-	function validateform() {
-		if(empty($_POST['oldPersonID'])) {
-			$_SESSION['ump_ERR'] = TRUE;
-			$_SESSION['ump_ERRMSG'] .= "Person ID cannot be empty! <br/>";
-		}			
+	function validateform() {		
 		if(!(empty($_POST['newFirstName']))) {
 			if(strlen($_POST['newFirstName'])>24) {
 				$_SESSION['ump_ERR'] = TRUE;
 				$_SESSION['ump_ERRMSG'] .= "First name must be less than 24 characters! <br/>";
 			}
-		}else {
+		}elseif (empty($_POST['oldPersonID'])) {
 			$_SESSION['ump_ERR'] = TRUE;
 			$_SESSION['ump_ERRMSG'] .= "First name cannot be empty! <br/>";
 		}
@@ -23,7 +19,7 @@
 				$_SESSION['ump_ERR'] = TRUE;
 				$_SESSION['ump_ERRMSG'] .= "Last name must be less than 24 characters! <br/>";
 			}
-		}	else {
+		}	elseif (empty($_POST['oldPersonID'])) {
 			$_SESSION['ump_ERR'] = TRUE;
 			$_SESSION['ump_ERRMSG'] .= "Last name cannot be empty! <br/>";
 		}		
@@ -32,7 +28,7 @@
 				$_SESSION['ump_ERR'] = TRUE;
 				$_SESSION['ump_ERRMSG'] .= "Address must be less than 128 characters! <br/>";
 			}
-		} else {
+		} elseif (empty($_POST['oldPersonID'])) {
 			$_SESSION['ump_ERR'] = TRUE;
 			$_SESSION['ump_ERRMSG'] .= "Address cannot be empty! <br/>";
 		}
@@ -41,7 +37,7 @@
 				$_SESSION['ump_ERR'] = TRUE;
 				$_SESSION['ump_ERRMSG'] .= "Email must be less than 128 characters! <br/>";
 			}
-		} else {
+		} elseif (empty($_POST['oldPersonID'])) {
 			$_SESSION['ump_ERR'] = TRUE;
 			$_SESSION['ump_ERRMSG'] .= "Email cannot be empty! <br/>";
 		}
@@ -50,7 +46,7 @@
 				$_SESSION['ump_ERR'] = TRUE;
 				$_SESSION['ump_ERRMSG'] .= "Phone must be less than 10 characters! <br/>";
 			}
-		} else {
+		} elseif (empty($_POST['oldPersonID'])) {
 			$_SESSION['ump_ERR'] = TRUE;
 			$_SESSION['ump_ERRMSG'] .= "Phone number cannot be empty! <br/>";
 		}
