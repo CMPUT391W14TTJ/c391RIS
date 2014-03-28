@@ -25,7 +25,6 @@
 		<div class="form">
 			<h3>Enter Record Information:</h3>
 			<form name="RadiologyRecord" method="post" action="./Upload/CheckRadiologyForm.php">
-				Record ID: <input type="text" name="record_id"/><span style="color: #FF0000;">*</span><br/>
 				Patient ID: <select name="patient_id">
 						<option value="empty">empty</option>
 						<?php displayPatients(); ?>
@@ -38,18 +37,20 @@
 						<option value="empty">empty</option>
 						<?php displayRadiologists(); ?>
 					    </select><span style="color: #FF0000;">*</span><br/>
-				Test Type: <input type="text" name="test_type"/><br/>
+				Test Type: <input type="text" name="test_type"/><span style="color: #FF0000;">*</span><br/>
 				<!-- will put date here --!>
 				Prescribing Date:
 				<?php
 					echo date_picker('prescribe_');
-				?>
+				?><span style="color: #FF0000;">*</span>&nbsp;
 				Test Date:
 				<?php
 					echo date_picker('test_');
-				?><br/>
-				Diagnosis: <p><textarea name="diagnosis" cols="40" rows="5"></textarea></p>
-				Description: <p><textarea name="description" cols="40" rows="5"></textarea></p>
+				?><span style="color: #FF0000;">*</span><br/>
+				Diagnosis: <p><textarea name="diagnosis" cols="40" rows="5"></textarea>
+					<span style="color: #FF0000;">*</span></p>
+				Description: <p><textarea name="description" cols="40" rows="5"></textarea>
+					<span style="color: #FF0000;">*</span></p>
 				<input type="submit" name="uploadRecord" value="Upload Record"/>
 			</form>
 			<p style="color:red;">
