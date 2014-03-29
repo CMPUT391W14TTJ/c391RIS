@@ -10,7 +10,7 @@
 	<h2>Image</h2>
 	
 	<p><?php  
-		displayImg($_GET['id'], "regular_size"); ?></p>
+		displayImg($_GET['id'], "full_size"); ?></p>
 	
 </body>
 </html>
