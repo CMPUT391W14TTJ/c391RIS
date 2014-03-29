@@ -6,6 +6,7 @@
 	<?php 	include('./inc/PHPconnectionDB.php');
 		include('./inc/DisplayImg.php'); 
 	?>
+	<a href="./Search.php">Back to Search</a>
 	<h2>Image</h2>
 	
 	<p><?php  

@@ -19,7 +19,6 @@
 		<p>
 		<?php
 			echo "USERNAME: " . $_SESSION['user']->username . '<br/>';
-			echo "PASSWORD: " . $_SESSION['user']->password . '<br/>';
 			echo "USER_ID: " . $_SESSION['user']->user_id . '<br/>';
 			echo "CLASS: " . $_SESSION['user']->user_class . '<br/>';
 			echo "FIRST_NAME: " . $_SESSION['user']->first_name . '<br/>';

@@ -47,6 +47,7 @@ function createThumbnail() {
 	}
 	
 	unlink($resizedThumbnail);
+	
 
 	smart_resize_image($_FILES['file']['tmp_name'], 100, 100, false, $resizedThumbnail, false, false, 100);
 	
