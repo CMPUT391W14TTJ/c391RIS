@@ -82,7 +82,7 @@ function setupOrder($order){
 	}else if($order == 'Date DESC'){
 		return dateDescending();
 	}else if(!$kFlag){
-		return dateDescending();
+		return rank();
 	}else{
 		return rank();
 	}
