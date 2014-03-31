@@ -53,12 +53,6 @@
 			$_SESSION['umu_updERR'] = TRUE;
 			$_SESSION['umu_updERRMSG'] .= "Old User Name cannot be empty! <br/>";	
 		}
-		if(!(empty($_POST['uNewUserName']))) {
-			if(strlen($_POST['uNewUserName'])>24) {
-				$_SESSION['umu_updERR'] = TRUE;
-				$_SESSION['umu_updERRMSG'] .= "User Name must be less than 24 characters! <br/>";
-			} 
-		}
 		if(!(empty($_POST['uNewPassword']))) {
 			if(strlen($_POST['uNewPassword'])>24) {
 				$_SESSION['umu_updERR'] = TRUE;
@@ -104,15 +98,9 @@
 		validateUpdate();   	
 		if ($_SESSION['umu_updERR'] == FALSE) {   	
 	   	$sql = "UPDATE users SET ";
-			if(!(empty($_POST['uNewUserName']))) {
-				$sql .= "user_name ='" . $_POST['uNewUserName'] . "', ";
-			}
 			if(!(empty($_POST['uNewPassword']))) {
 				$sql .= "password ='" . $_POST['uNewPassword'] . "', ";
 			}			
-			if(!(empty($_POST['uNewClass']))) {
-				$sql .= "class = '" . $_POST['uNewClass'] . "', ";
-			}
 			if($_POST['uNewPersonID'] != '') {
 				$sql .= "person_id = " . $_POST['uNewPersonID'] . ", ";
 			}

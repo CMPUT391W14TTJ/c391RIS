@@ -81,14 +81,7 @@
 				}
 				echo "</select><br/>";
 			?>
-			New User Name: <input type="text" name="uNewUserName"/><br/>
 			Password: <input type="text" name="uNewPassword"/><br/>
-			Class: <select name='uNewClass'><option value=''>---SELECT Class---</option>";				
-					<option value='p'> Patient </option>
-					<option value='d'> Doctor </option>
-					<option value='r'> Radiologist </option>
-					<option value='a'> Admin </option>
-					</select><br/>
 			Person ID:
 			<?php
 				oci_execute($parsepids);
