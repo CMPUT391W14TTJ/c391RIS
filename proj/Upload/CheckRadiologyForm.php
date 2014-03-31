@@ -42,11 +42,15 @@
 		$testDay = sprintf("%02s", $_POST['test_day']);
 		$testYear = sprintf("%02s", $_POST['test_year']);
 
+		$test_type = str_replace("\'", "", $_POST['test_type']);
+		$diagnosis = str_replace("\'", "", $_POST['diagnosis']);
+		$description = str_replace("\'", "", $_POST['description']);
+
 		$sql = 'INSERT INTO radiology_record (record_id, patient_id, doctor_id, radiologist_id' .
 			', test_type, diagnosis, description, prescribing_date, test_date) VALUES (' . 
 			$recordID . ' ,' . $_POST['patient_id'] . ',' . $_POST['doctor_id'] . 
-			' ,' . $_POST['radiologist_id'] . ', \'' . $_POST['test_type'] . '\' ' . ',\''. 
-			$_POST['diagnosis'] . '\', ' . '\'' . $_POST['description'] . '\', TO_DATE(\'' . 
+			' ,' . $_POST['radiologist_id'] . ', \'' . $test_type . '\' ' . ',\''. 
+			$diagnosis . '\', ' . '\'' . $description  . '\', TO_DATE(\'' . 
 			$prscYear . $prscMonth . $prscDay .'\', \'YYYYMMDD\'), TO_DATE(\'' . $testYear .
 			$testMonth . $testDay . '\', \'YYYYMMDD\'))';	
 		return $sql;
@@ -66,7 +70,7 @@
 		$res = oci_execute($stid);
 		if (!$res) {
 			$_SESSION['err'] = True;
-			$_SESSION['err_msg'] = "Failed to insert record. " + $sql;
+			$_SESSION['err_msg'] = "Failed to insert record.";
 			header('Location: ../UploadPage.php');
 			exit(1);
 		}
