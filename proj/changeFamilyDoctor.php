@@ -70,7 +70,7 @@
 			$newDoc = $_POST['uNewDocID'];
 		}
 		if(!(empty($_POST['uNewPatID']))) {
-			$newDoc = $_POST['uNewPatID'];
+			$newPat = $_POST['uNewPatID'];
 		}
 		
 		if($_SESSION['umd_updERR'] == FALSE) {
